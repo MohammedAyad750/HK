@@ -5,166 +5,156 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="pageTitle">HK</title>
 
-    <!-- ملف CSS الرئيسي -->
     <link rel="stylesheet" href="css/index.css">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* ===== IMAGE LIGHTBOX ===== */
+        /* ======================================================
+           INLINE OVERRIDES — تعريفات تكمّل ملف index.css
+           ====================================================== */
+
+        /* --- Lightbox --- */
         .image-modal {
             display: none;
             position: fixed;
             z-index: 9999;
-            left: 0; top: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.94);
+            inset: 0;
+            background: rgba(8,8,7,0.97);
             justify-content: center;
             align-items: center;
             animation: fadeIn 0.2s ease-in-out;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
-
         .modal-img {
-            max-width: 85%;
-            max-height: 85%;
+            max-width: 88%;
+            max-height: 86vh;
             border-radius: 12px;
-            box-shadow: 0 0 25px rgba(255,215,0,0.2);
-            animation: zoomIn 0.2s ease-in-out;
+            box-shadow: 0 0 60px rgba(201,168,76,0.15), 0 0 120px rgba(0,0,0,0.8);
+            animation: zoomIn 0.22s cubic-bezier(0.34,1.56,0.64,1);
             user-select: none;
+            object-fit: contain;
         }
-
         .close-btn {
             position: absolute;
-            top: 20px; right: 25px;
-            font-size: 45px;
-            color: gold;
+            top: 18px;
+            inset-inline-end: 22px;
+            font-size: 42px;
+            color: #c9a84c;
             cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
+            font-weight: 300;
+            transition: 0.2s;
             z-index: 10000;
+            line-height: 1;
+            opacity: 0.78;
         }
-
-        .close-btn:hover { transform: scale(1.2); }
-
+        .close-btn:hover { opacity: 1; transform: scale(1.2) rotate(90deg); }
         .modal-arrow {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(0,0,0,0.6);
-            border: 2px solid rgba(255,215,0,0.4);
-            color: gold;
-            width: 50px; height: 50px;
+            background: rgba(0,0,0,0.5);
+            border: 1.5px solid rgba(201,168,76,0.28);
+            color: #c9a84c;
+            width: 48px; height: 48px;
             border-radius: 50%;
             display: none;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
+            font-size: 18px;
             cursor: pointer;
-            transition: 0.3s ease-in-out;
+            transition: 0.28s;
             z-index: 10000;
+            backdrop-filter: blur(4px);
         }
+        .modal-arrow:hover { background: #c9a84c; color: #000; border-color: #c9a84c; }
+        .left-arrow  { left: 28px; }
+        .right-arrow { right: 28px; }
+        @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+        @keyframes zoomIn { from{transform:scale(0.82);opacity:0} to{transform:scale(1);opacity:1} }
 
-        .modal-arrow:hover {
-            background: gold;
-            color: black;
-            border-color: gold;
-        }
-
-        .left-arrow  { left: 35px; }
-        .right-arrow { right: 35px; }
-
-        .image-box img {
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .image-box img:hover { transform: scale(1.03); }
-
-        @keyframes fadeIn {
-            from { opacity: 0; } to { opacity: 1; }
-        }
-        @keyframes zoomIn {
-            from { transform: scale(0.8); } to { transform: scale(1); }
-        }
-
-        /* ===== DROPDOWN MENU ===== */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
+        /* --- Dropdown (desktop) --- */
+        .dropdown { position: relative; display: inline-block; }
         .dropdown-content {
             display: none;
             position: absolute;
-            top: 100%;
-            background-color: #1b1b1b;
-            min-width: 220px;
-            box-shadow: 0px 8px 16px rgba(0,0,0,0.5);
+            top: calc(100% + 10px);
+            inset-inline-start: 0;
+            background: #1d1b17;
+            min-width: 240px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.65), 0 0 0 1px rgba(201,168,76,0.08);
             z-index: 9999;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
+            border: 1px solid rgba(201,168,76,0.15);
+            animation: dropdownIn 0.18s cubic-bezier(0.4,0,0.2,1);
         }
-
+        @keyframes dropdownIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
         .dropdown-content a {
-            color: white;
-            padding: 12px 15px;
+            color: #ddd3be;
+            padding: 11px 16px;
             text-decoration: none;
-            display: block;
-            transition: 0.3s;
-            border-bottom: 1px solid #333;
+            display: flex;
+            align-items: center;
+            font-size: 13.5px;
+            transition: 0.16s;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            position: relative;
         }
-
-        .dropdown-content a:hover { background: gold; color: black; }
-
+        .dropdown-content a::before {
+            content:'';
+            position:absolute;
+            inset-inline-start:0;
+            top:20%; height:60%;
+            width:2px;
+            background:#c9a84c;
+            border-radius:1px;
+            opacity:0;
+            transition:opacity 0.2s;
+        }
+        .dropdown-content a:hover {
+            background: rgba(201,168,76,0.14);
+            color: #e8c96e;
+            padding-inline-start: 22px;
+        }
+        .dropdown-content a:hover::before { opacity:1; }
         .dropdown:hover .dropdown-content,
-        .dropdown.active .dropdown-content {
-            display: block;
-        }
+        .dropdown.active .dropdown-content { display: block; }
 
-        /* ===== عرض المزيد / أقل ===== */
-        .products-grid:not(.expanded) .product-card:nth-child(n+4) {
-            display: none;
-        }
-
-        .show-more-box {
-            text-align: center;
-            margin-top: 35px;
-            width: 100%;
-        }
-
+        /* --- Show More / Less --- */
+        .products-grid:not(.expanded) .product-card:nth-child(n+4) { display: none; }
+        .show-more-box { text-align:center; margin-top:28px; width:100%; }
         .btn-show-more {
             background: transparent;
-            color: gold;
-            border: 2px solid gold;
-            padding: 10px 28px;
-            font-size: 15px;
-            font-weight: bold;
-            border-radius: 8px;
+            color: #c9a84c;
+            border: 1.5px solid rgba(201,168,76,0.4);
+            padding: 11px 32px;
+            font-size: 13.5px;
+            font-weight: 600;
+            border-radius: 28px;
             cursor: pointer;
-            transition: 0.3s ease-in-out;
+            transition: 0.28s;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            font-family: 'Cairo', sans-serif;
+            letter-spacing: 0.04em;
         }
-
         .btn-show-more:hover {
-            background: gold;
-            color: black;
-            transform: scale(1.05);
+            background: rgba(201,168,76,0.14);
+            border-color: #c9a84c;
+            box-shadow: 0 0 20px rgba(201,168,76,0.18);
+            transform: scale(1.04);
         }
 
-        /* ===== PRODUCT CARD — صورة واحدة ===== */
+        /* --- Single-image card (horizontal) --- */
         .product-card.single-image {
             display: flex;
-            flex-direction: row;
             align-items: stretch;
-            gap: 0;
             overflow: hidden;
         }
-
         [dir="rtl"] .product-card.single-image { flex-direction: row; }
         [dir="ltr"] .product-card.single-image { flex-direction: row-reverse; }
-
         .product-card.single-image .image-box {
             flex: 0 0 42%;
             max-width: 42%;
@@ -172,20 +162,13 @@
             overflow: hidden;
             position: relative;
         }
-
         .product-card.single-image .image-box .main-product-img {
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             object-fit: cover;
-            display: block;
             border-radius: 0;
-            transition: transform 0.4s ease;
+            transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
         }
-
-        .product-card.single-image .image-box:hover .main-product-img {
-            transform: scale(1.06);
-        }
-
+        .product-card.single-image:hover .image-box .main-product-img { transform: scale(1.07); }
         .product-card.single-image .card-details {
             flex: 1;
             display: flex;
@@ -193,74 +176,71 @@
             justify-content: center;
             padding: 20px 22px;
             gap: 10px;
+            min-width: 0;
         }
 
-        /* ===== PRODUCT CARD — متعدد الصور ===== */
-        .product-card.multi-image {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .product-card.multi-image .image-box {
-            width: 100%;
-            position: relative;
-        }
-
+        /* --- Multi-image card (vertical) --- */
+        .product-card.multi-image { flex-direction: column; }
+        .product-card.multi-image .image-box { width:100%; overflow:hidden; position:relative; }
         .product-card.multi-image .image-box .main-product-img {
-            width: 100%;
-            aspect-ratio: 4 / 3;
+            width:100%;
+            aspect-ratio: 4/3;
             object-fit: cover;
-            display: block;
-            border-radius: 10px 10px 0 0;
+            border-radius: 0;
+            transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
         }
+        .product-card.multi-image:hover .image-box .main-product-img { transform: scale(1.04); }
+        .product-card.multi-image .card-details { padding: 18px 20px 20px; display:flex; flex-direction:column; gap:10px; }
 
-        /* ===== Thumbnails ===== */
+        /* --- Thumbnails --- */
         .thumbnails-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            padding: 10px 10px 4px;
-            background: rgba(0,0,0,0.15);
+            display: flex; flex-wrap: wrap; gap: 6px;
+            padding: 10px 12px 8px;
+            background: rgba(0,0,0,0.22);
+            border-top: 1px solid rgba(201,168,76,0.15);
         }
-
         .thumb-img {
-            width: 52px;
-            height: 52px;
-            object-fit: cover;
-            border-radius: 6px;
-            border: 2px solid transparent;
-            cursor: pointer;
-            transition: border-color 0.25s, transform 0.2s;
+            width:50px; height:50px;
+            object-fit:cover;
+            border-radius:6px;
+            border:2px solid transparent;
+            cursor:pointer;
+            transition:0.16s;
         }
-
-        .thumb-img:hover,
-        .thumb-img.active-thumb {
-            border-color: gold;
-            transform: scale(1.08);
+        .thumb-img:hover, .thumb-img.active-thumb {
+            border-color:#c9a84c;
+            box-shadow:0 0 10px rgba(201,168,76,0.28);
         }
+        .image-box img { cursor:pointer; }
 
-        /* ===== Mobile ===== */
+        /* --- Mobile: 768px --- */
         @media (max-width: 768px) {
-            .modal-arrow { width: 40px; height: 40px; font-size: 18px; }
-            .left-arrow  { left: 15px; }
-            .right-arrow { right: 15px; }
-            .modal-img   { max-width: 92%; }
+            .modal-arrow { width:38px; height:38px; font-size:15px; }
+            .left-arrow  { left:10px; }
+            .right-arrow { right:10px; }
+            .modal-img   { max-width:94%; max-height:82vh; }
 
-            .product-card.single-image {
-                flex-direction: column !important;
-            }
-
+            .product-card.single-image { flex-direction: column !important; }
             .product-card.single-image .image-box {
-                flex: unset;
-                max-width: 100%;
-                width: 100%;
-                min-height: 200px;
-                max-height: 240px;
+                flex:unset; max-width:100%; width:100%;
+                min-height:180px; max-height:220px;
             }
+            .product-card.single-image .card-details { padding:16px 14px; }
+        }
 
-            .product-card.single-image .card-details {
-                padding: 16px;
+        /* --- Mobile: 540px (contact cards horizontal) --- */
+        @media (max-width: 540px) {
+            .contact-card {
+                flex-direction: row !important;
+                text-align: start !important;
+                padding: 1.1rem 1.2rem !important;
+                gap: 16px !important;
+                align-items: center !important;
             }
+            .contact-card .icon-box { flex-shrink:0; width:46px!important; height:46px!important; font-size:18px!important; }
+            .contact-card h3 { font-size:11.5px!important; margin-bottom:2px; }
+            .contact-card p  { font-size:13px!important; }
+            .contact-card .phone-num { font-size:1.1rem!important; }
         }
     </style>
 </head>
@@ -268,7 +248,7 @@
 <body>
 
 <!-- ========== NAVBAR ========== -->
-<nav class="navbar">
+<nav class="navbar" id="mainNav">
     <div class="nav-container">
 
         <div class="logo">
@@ -279,28 +259,44 @@
             </div>
         </div>
 
+        <!-- Desktop nav links (hidden on mobile via CSS) -->
         <ul class="nav-links">
             <li><a href="#home" id="homeLink">الرئيسية</a></li>
 
             <li class="dropdown" id="navDropdown">
                 <a href="#products" id="productsLink" onclick="toggleDropdown(event)">
                     أقسام العطور
-                    <i class="fa-solid fa-chevron-down" style="font-size:11px; margin-right:4px;"></i>
+                    <i class="fa-solid fa-chevron-down" style="font-size:10px; margin-inline-start:4px;"></i>
                 </a>
-                <div class="dropdown-content" id="dropdownContent">
-                    <!-- تُملأ عبر JavaScript -->
-                </div>
+                <div class="dropdown-content" id="dropdownContent"></div>
             </li>
 
             <li><a href="#contact" id="contactLink">اتصل بنا</a></li>
 
-            <li class="lang-switcher" id="langSwitcher">
-                <!-- تُملأ عبر JavaScript -->
-            </li>
+            <li class="lang-switcher" id="langSwitcher"></li>
         </ul>
+
+        <!-- Hamburger button (mobile only) -->
+        <button class="hamburger" id="hamburgerBtn" aria-label="القائمة" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
 
     </div>
 </nav>
+
+<!-- Mobile Drawer -->
+<div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true">
+    <div class="drawer-backdrop" id="drawerBackdrop"></div>
+    <div class="drawer-panel" id="drawerPanel">
+        <a href="#home"     id="drawerHome"><i class="fa-solid fa-house"></i> <span>الرئيسية</span></a>
+        <a href="#products" id="drawerProducts"><i class="fa-solid fa-spray-can-sparkles"></i> <span>أقسام العطور</span></a>
+        <a href="#contact"  id="drawerContact"><i class="fa-solid fa-phone"></i> <span>اتصل بنا</span></a>
+        <div class="drawer-divider"></div>
+        <div class="drawer-lang" id="drawerLang"></div>
+    </div>
+</div>
 
 <!-- ========== HERO ========== -->
 <header id="home" class="hero-section">
@@ -308,233 +304,264 @@
     <div class="hero-content">
         <h1 id="heroTitle">أرقى عطور العالمية</h1>
         <p id="heroSub">شركة HK تقدم لكم عطور و بخور بأعلى جودة في العراق.</p>
-        <a href="#products" class="btn-primary" id="btnBrowse">تصفح الأقسام والمنتجات</a>
-        <a href="#" class="btn-primary" id="btnOrder" style="margin-right:10px;">اطلب أو استفسر عبر الواتساب</a>
+        <div class="hero-buttons">
+            <a href="#products" class="btn-primary" id="btnBrowse">تصفح الأقسام والمنتجات</a>
+            <a href="#"         class="btn-primary" id="btnOrder">اطلب أو استفسر عبر الواتساب</a>
+        </div>
     </div>
 </header>
 
-<!-- ========== الأقسام والمنتجات (تُنشأ ديناميكياً) ========== -->
+<!-- ========== المنتجات ========== -->
 <main class="container" id="products">
     <div id="sectionsContainer"></div>
 </main>
 
-<!-- ========== قسم الاتصال ========== -->
+<!-- ========== الاتصال ========== -->
 <section id="contact" class="contact-section">
     <div class="container">
         <h2 class="contact-title" id="contactTitle">معلومات الاتصال والزيارة</h2>
+        <span class="gold-line"></span>
 
         <div class="contact-grid">
-
             <div class="contact-card">
                 <div class="icon-box"><i class="fa-solid fa-map-location-dot"></i></div>
-                <h3 id="addressLabel">موقع الشركة</h3>
-                <p id="officeLocation">النجف الأشرف...</p>
+                <div>
+                    <h3 id="addressLabel">موقع الشركة</h3>
+                    <p id="officeLocation">النجف الأشرف - شارع الروان</p>
+                </div>
             </div>
 
             <div class="contact-card">
                 <div class="icon-box"><i class="fa-solid fa-phone"></i></div>
-                <h3 id="phoneLabel">رقم الهاتف الفعلي</h3>
-                <p class="phone-num" id="officePhone">07710666646</p>
+                <div>
+                    <h3 id="phoneLabel">رقم الهاتف الفعلي</h3>
+                    <p class="phone-num" id="officePhone">07710666646</p>
+                </div>
             </div>
 
             <div class="contact-card">
                 <div class="icon-box"><i class="fa-solid fa-business-time"></i></div>
-                <h3 id="hoursLabel">أوقات العمل</h3>
-                <p id="hoursVal">أهلاً وسهلاً بكم في جميع الأوقات</p>
+                <div>
+                    <h3 id="hoursLabel">أوقات العمل</h3>
+                    <p id="hoursVal">أهلاً وسهلاً بكم في جميع الأوقات</p>
+                </div>
             </div>
-
         </div>
     </div>
 </section>
 
 <!-- ========== FOOTER ========== -->
 <footer class="main-footer">
-    <p id="footerText">شركة HK</p>
+    <p id="footerText">شركة HK - الفخامة والتميز في عالم العطور</p>
     <p class="copyright">جميع الحقوق محفوظة © شركة HK 2026</p>
 </footer>
 
-<!-- ========== IMAGE MODAL (LIGHTBOX) ========== -->
+<!-- ========== IMAGE MODAL ========== -->
 <div id="imageModal" class="image-modal">
     <span class="close-btn" id="closeModalBtn">&times;</span>
-
-    <button id="modalPrevBtn" class="modal-arrow left-arrow">
-        <i class="fa-solid fa-chevron-left"></i>
-    </button>
-
+    <button id="modalPrevBtn" class="modal-arrow left-arrow"><i class="fa-solid fa-chevron-left"></i></button>
     <img class="modal-img" id="modalImg" alt="معاينة الصورة">
-
-    <button id="modalNextBtn" class="modal-arrow right-arrow">
-        <i class="fa-solid fa-chevron-right"></i>
-    </button>
+    <button id="modalNextBtn" class="modal-arrow right-arrow"><i class="fa-solid fa-chevron-right"></i></button>
 </div>
 
-<!-- ========== JavaScript (Lightbox, Dropdown, Show More) ========== -->
+
+<!-- ========== JavaScript: Lightbox + Dropdown + Show More ========== -->
 <script>
-// ---------- متغيرات عامة للمودال ----------
+/* ── Modal ── */
 let currentModalImages = [];
 let currentModalIndex  = 0;
 
-// ---------- دوال المودال ----------
 function updateModalView() {
     document.getElementById("modalImg").src = currentModalImages[currentModalIndex];
-    const prevBtn = document.getElementById("modalPrevBtn");
-    const nextBtn = document.getElementById("modalNextBtn");
-    const multi   = currentModalImages.length > 1;
-    prevBtn.style.display = multi ? "flex" : "none";
-    nextBtn.style.display = multi ? "flex" : "none";
+    const multi = currentModalImages.length > 1;
+    document.getElementById("modalPrevBtn").style.display = multi ? "flex" : "none";
+    document.getElementById("modalNextBtn").style.display = multi ? "flex" : "none";
 }
 
-function navModalImage(direction) {
-    currentModalIndex = (currentModalIndex + direction + currentModalImages.length) % currentModalImages.length;
+function navModalImage(dir) {
+    currentModalIndex = (currentModalIndex + dir + currentModalImages.length) % currentModalImages.length;
     const img = document.getElementById("modalImg");
-    img.style.animation = 'none';
-    img.offsetHeight;
+    img.style.animation = 'none'; img.offsetHeight;
     img.style.animation = 'zoomIn 0.2s ease-in-out';
     updateModalView();
 }
 
 function closeImage() {
     document.getElementById("imageModal").style.display = "none";
-    // إعادة تفعيل التمرير عند إغلاق الصورة
     document.body.style.overflow = '';
 }
 
-// ---------- Dropdown ----------
+/* ── Dropdown ── */
 function toggleDropdown(e) {
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault(); e.stopPropagation();
     document.getElementById("navDropdown").classList.toggle("active");
 }
-
 function closeDropdown() {
     document.getElementById("navDropdown").classList.remove("active");
 }
 
-// ---------- تفويض الأحداث (لأن المحتوى ديناميكي) ----------
+/* ── Delegated events ── */
 document.addEventListener('click', function(e) {
-    // تغيير الصورة الرئيسية عند الضغط على صورة مصغرة
+    /* Thumbnail click */
     if (e.target.classList.contains('thumb-img')) {
-        const thumb = e.target;
-        const newSrc = thumb.getAttribute('src');
-        const card = thumb.closest('.product-card');
+        const card = e.target.closest('.product-card');
         if (card) {
-            const mainImg = card.querySelector('.main-product-img');
-            if (mainImg) mainImg.src = newSrc;
+            card.querySelector('.main-product-img').src = e.target.src;
             card.querySelectorAll('.thumb-img').forEach(t => t.classList.remove('active-thumb'));
-            thumb.classList.add('active-thumb');
+            e.target.classList.add('active-thumb');
         }
     }
 
-    // فتح Lightbox عند الضغط على الصورة الرئيسية
+    /* Open lightbox */
     if (e.target.classList.contains('main-product-img')) {
-        const img = e.target;
-        const card = img.closest('.product-card');
+        const card  = e.target.closest('.product-card');
         const thumbs = card.querySelectorAll('.thumb-img');
-        currentModalImages = [];
-        if (thumbs.length > 0) {
-            thumbs.forEach(t => currentModalImages.push(t.getAttribute('src')));
-        } else {
-            currentModalImages.push(img.getAttribute('src'));
-        }
-        const currentSrc = img.getAttribute('src');
-        currentModalIndex = currentModalImages.indexOf(currentSrc);
+        currentModalImages = thumbs.length > 0
+            ? Array.from(thumbs).map(t => t.src)
+            : [e.target.src];
+        currentModalIndex = currentModalImages.indexOf(e.target.src);
         if (currentModalIndex === -1) currentModalIndex = 0;
         updateModalView();
         document.getElementById("imageModal").style.display = "flex";
-        // منع التمرير في الخلفية عند فتح الصورة
         document.body.style.overflow = 'hidden';
     }
 
-    // عرض المزيد / أقل
-    if (e.target.classList.contains('btn-show-more') || e.target.closest('.btn-show-more')) {
-        const button = e.target.classList.contains('btn-show-more') ? e.target : e.target.closest('.btn-show-more');
-        const section = button.closest('.decor-section');
-        if (!section) return;
-        const grid = section.querySelector('.products-grid');
+    /* Show more / less */
+    const btn = e.target.classList.contains('btn-show-more')
+        ? e.target : e.target.closest('.btn-show-more');
+    if (btn) {
+        const grid = btn.closest('.decor-section')?.querySelector('.products-grid');
         if (!grid) return;
         grid.classList.toggle('expanded');
         const lang = document.documentElement.lang;
-        const isAr = lang === 'ar';
-        const isKu = lang === 'ku';
-        if (grid.classList.contains('expanded')) {
-            button.innerHTML = (isAr ? 'عرض أقل' : isKu ? 'بینینی کەمتر' : 'Show Less') + ' <i class="fa-solid fa-chevron-up"></i>';
-        } else {
-            button.innerHTML = (isAr ? 'عرض المزيد' : isKu ? 'بینینی زیاتر' : 'Show More') + ' <i class="fa-solid fa-chevron-down"></i>';
-            section.scrollIntoView({ behavior: 'smooth' });
-        }
+        const isAr = lang === 'ar', isKu = lang === 'ku';
+        btn.innerHTML = grid.classList.contains('expanded')
+            ? (isAr ? 'عرض أقل' : isKu ? 'بینینی کەمتر' : 'Show Less') + ' <i class="fa-solid fa-chevron-up"></i>'
+            : (isAr ? 'عرض المزيد' : isKu ? 'بینینی زیاتر' : 'Show More') + ' <i class="fa-solid fa-chevron-down"></i>';
+        if (!grid.classList.contains('expanded'))
+            btn.closest('.decor-section').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // إغلاق dropdown عند النقر خارجه
-    const dropdown = document.getElementById("navDropdown");
-    if (dropdown && !dropdown.contains(e.target)) {
-        dropdown.classList.remove("active");
-    }
+    /* Close dropdown */
+    const dd = document.getElementById("navDropdown");
+    if (dd && !dd.contains(e.target)) dd.classList.remove("active");
 });
 
-// ---------- أحداث المودال ----------
+/* ── Modal events ── */
 document.getElementById("closeModalBtn").addEventListener("click", closeImage);
-document.getElementById("imageModal").addEventListener("click", function(e) {
-    if (e.target === this) closeImage();
-});
+document.getElementById("imageModal").addEventListener("click", e => { if (e.target === e.currentTarget) closeImage(); });
 document.getElementById("modalPrevBtn").addEventListener("click", () => navModalImage(-1));
 document.getElementById("modalNextBtn").addEventListener("click", () => navModalImage(1));
-
-document.addEventListener('keydown', function(e) {
-    const modal = document.getElementById("imageModal");
-    if (modal && modal.style.display === "flex") {
-        if      (e.key === "ArrowLeft")  navModalImage(-1);
-        else if (e.key === "ArrowRight") navModalImage(1);
-        else if (e.key === "Escape")     closeImage();
+document.addEventListener('keydown', e => {
+    const m = document.getElementById("imageModal");
+    if (m?.style.display === "flex") {
+        if (e.key === "ArrowLeft")  navModalImage(-1);
+        if (e.key === "ArrowRight") navModalImage(1);
+        if (e.key === "Escape")     closeImage();
     }
 });
 
-// ---------- دعم السحب بالإصبع (Touch Swipe) للمودال ----------
-(function() {
+/* ── Touch swipe for modal ── */
+(function () {
     const modal = document.getElementById("imageModal");
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    modal.addEventListener('touchstart', function(e) {
-        touchStartX = e.changedTouches[0].screenX;
-    }, {passive: true});
-
-    modal.addEventListener('touchend', function(e) {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, {passive: true});
-
-    function handleSwipe() {
-        const diff = touchStartX - touchEndX;
-        if (Math.abs(diff) < 30) return;
-
-        if (diff > 0) {
-            navModalImage(1);
-        } else {
-            navModalImage(-1);
-        }
-    }
+    let sx = 0;
+    modal.addEventListener('touchstart', e => { sx = e.changedTouches[0].screenX; }, { passive: true });
+    modal.addEventListener('touchend',   e => {
+        const diff = sx - e.changedTouches[0].screenX;
+        if (Math.abs(diff) >= 30) navModalImage(diff > 0 ? 1 : -1);
+    }, { passive: true });
 })();
 </script>
 
-<!-- ملف JavaScript الرئيسي (البيانات والملء الديناميكي) -->
+<!-- ملف البيانات الرئيسي -->
 <script src="js/index.js"></script>
 
-<!-- ===== تعديلات جديدة: العودة للأعلى عند التحديث + رابط الواتساب ===== -->
+<!-- ========== Hamburger + Drawer + Scroll Shrink + WhatsApp ========== -->
 <script>
-    // منع المتصفح من تذكر موقع التمرير والعودة للأعلى عند التحديث
-    history.scrollRestoration = 'manual';
-    window.addEventListener('load', function() {
-        window.scrollTo(0, 0);
+(function () {
+    /* ── Hamburger ── */
+    const btn      = document.getElementById('hamburgerBtn');
+    const drawer   = document.getElementById('mobileDrawer');
+    const backdrop = document.getElementById('drawerBackdrop');
+    const nav      = document.getElementById('mainNav');
+
+    function openDrawer() {
+        btn.classList.add('is-open');
+        drawer.classList.add('is-open');
+        document.body.classList.add('menu-open');
+        btn.setAttribute('aria-expanded', 'true');
+    }
+    function closeDrawer() {
+        btn.classList.remove('is-open');
+        drawer.classList.remove('is-open');
+        document.body.classList.remove('menu-open');
+        btn.setAttribute('aria-expanded', 'false');
+    }
+
+    btn.addEventListener('click', e => {
+        e.stopPropagation();
+        drawer.classList.contains('is-open') ? closeDrawer() : openDrawer();
+    });
+    backdrop.addEventListener('click', closeDrawer);
+    document.getElementById('drawerPanel').addEventListener('click', e => {
+        if (e.target.tagName === 'A' || e.target.closest('a')) closeDrawer();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+
+    /* ── Scroll shrink ── */
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    /* ── Sync drawer text after index.js fills content ── */
+    document.addEventListener('DOMContentLoaded', function () {
+        setTimeout(function () {
+            const lang = document.documentElement.lang || 'ar';
+            if (typeof multilingualData === 'undefined') return;
+            const c = multilingualData[lang];
+            if (!c) return;
+
+            const dHome     = document.getElementById('drawerHome');
+            const dProducts = document.getElementById('drawerProducts');
+            const dContact  = document.getElementById('drawerContact');
+            const dLang     = document.getElementById('drawerLang');
+
+            if (dHome)     dHome.querySelector('span').textContent     = c.home;
+            if (dProducts) dProducts.querySelector('span').textContent = c.products;
+            if (dContact)  dContact.querySelector('span').textContent  = c.contact;
+
+            if (dLang) {
+                const langs = [
+                    { code:'ar', label:'العربية' },
+                    { code:'ku', label:'کوردی'   },
+                    { code:'en', label:'English'  }
+                ];
+                dLang.innerHTML = '';
+                langs.forEach(l => {
+                    const a = document.createElement('a');
+                    a.href = '?lang=' + l.code;
+                    a.textContent = l.label;
+                    if (l.code === lang) a.classList.add('active-lang');
+                    a.addEventListener('click', e => {
+                        e.preventDefault();
+                        if (typeof changeLanguage === 'function') changeLanguage(l.code);
+                    });
+                    dLang.appendChild(a);
+                });
+            }
+        }, 0);
     });
 
-    // تعيين رابط الواتساب للزر في الـ Hero
-    document.addEventListener('DOMContentLoaded', function() {
-        const phone = '07710666646'; // نفس الرقم الموجود في قسم الاتصال
-        const btnOrder = document.getElementById('btnOrder');
-        if (btnOrder) {
-            btnOrder.href = `https://wa.me/964${phone.slice(1)}`;
-        }
+    /* ── Scroll restore + WhatsApp ── */
+    history.scrollRestoration = 'manual';
+    window.addEventListener('load', () => window.scrollTo(0, 0));
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const phone  = '07710666646';
+        const btnOrd = document.getElementById('btnOrder');
+        if (btnOrd) btnOrd.href = 'https://wa.me/964' + phone.slice(1);
     });
+})();
 </script>
 
 </body>
