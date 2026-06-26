@@ -1,0 +1,969 @@
+/* ===================================================
+   RESET & GLOBAL
+   =================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cairo', sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #030303;
+    color: #fff;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #b8860b #0a0a0a;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #d4af37, #b8860b);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #ffd700;
+}
+
+/* ===================================================
+   NAVBAR - زجاجي فاخر
+   =================================================== */
+.navbar {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    padding: 15px 40px;
+    z-index: 1000;
+    transition: all 0.4s ease;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
+}
+
+.navbar.scrolled {
+    padding: 10px 40px;
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-circle {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(145deg, #ffd700, #b8860b);
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: 900;
+    font-size: 1.4rem;
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.8);
+    transition: all 0.3s ease;
+    position: relative;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+}
+
+.logo-circle::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 215, 0, 0.5);
+    animation: pulseRing 2s ease-out infinite;
+}
+
+@keyframes pulseRing {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.7); opacity: 0; }
+}
+
+.logo-circle:hover {
+    transform: rotate(15deg) scale(1.1);
+    box-shadow: 0 0 40px rgba(255, 215, 0, 1);
+}
+
+.brand-name {
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    background: linear-gradient(to right, #fff, #ffd700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.brand-sub {
+    font-size: 10px;
+    color: #aaa;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+/* ===================================================
+   NAV LINKS
+   =================================================== */
+.nav-links {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+    align-items: center;
+}
+
+.nav-links a {
+    color: #ccc;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    position: relative;
+    padding: 10px 0;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+}
+
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(90deg, #ffd700, #ffaa00);
+    bottom: 0;
+    left: 0;
+    transition: width 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+    border-radius: 3px;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+.nav-links a:hover {
+    color: #ffd700;
+    text-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* ===================================================
+   DROPDOWN - قائمة منسدلة ذهبية (في المنتصف، تعمل بالضغط فقط)
+   =================================================== */
+.dropdown {
+    position: relative;
+    display: inline-block;          /* يأخذ عرض المحتوى فقط */
+    width: max-content;            /* ضمان إضافي لأخذ عرض الزر */
+}
+
+.dropdown-content {
+    position: absolute;
+    top: 140%;
+    left: 50%;
+    transform: translateX(-50%);   /* توسيط مثالي بالنسبة للزر */
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    min-width: 250px;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(212, 175, 55, 0.4);
+    display: none;
+    overflow: hidden;
+    animation: fadeInDown 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 9999;
+    transform-origin: top center;
+    padding: 8px 0;
+}
+
+/* تظهر القائمة فقط عندما يكون للأب الكلاس active */
+.dropdown.active .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 14px 25px;
+    color: #ddd;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    transition: all 0.3s ease;
+    font-size: 14px;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+}
+
+.dropdown-content a:last-child {
+    border-bottom: none;
+}
+
+.dropdown-content a:hover {
+    background: linear-gradient(90deg, rgba(212, 175, 55, 0.25), transparent);
+    color: #ffd700;
+    padding-right: 35px;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+}
+
+/* ===================================================
+   LANGUAGE SWITCHER
+   =================================================== */
+.lang-switcher {
+    display: flex;
+    gap: 4px;
+}
+
+.lang-switcher a {
+    margin: 0 4px;
+    color: #aaa;
+    text-decoration: none;
+    font-size: 13px;
+    transition: all 0.3s ease;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.lang-switcher a:hover {
+    color: #000;
+    background: #ffd700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    transform: translateY(-2px);
+}
+
+.active-lang {
+    color: #000 !important;
+    font-weight: bold;
+    background: #ffd700 !important;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+}
+
+/* ===================================================
+   HERO SECTION - ملحمي
+   =================================================== */
+.hero-section {
+    height: 100vh;
+    background: url("../images/water41.jpg") center/cover fixed;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    animation: heroFadeIn 1.5s ease;
+}
+
+@keyframes heroFadeIn {
+    from { opacity: 0; transform: scale(1.05); filter: brightness(0.4); }
+    to { opacity: 1; transform: scale(1); filter: brightness(1); }
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.8) 100%);
+}
+
+.hero-content {
+    position: relative;
+    max-width: 850px;
+    animation: slideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 20px;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(60px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-content h1 {
+    font-size: 4.5rem;
+    margin-bottom: 25px;
+    font-weight: 900;
+    line-height: 1.2;
+    background: linear-gradient(to bottom, #fff, #ffd700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8));
+}
+
+.hero-content p {
+    font-size: 1.4rem;
+    color: #ddd;
+    margin-bottom: 40px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 400;
+}
+
+/* ===================================================
+   BUTTONS - أزرار ذهبية ساحرة
+   =================================================== */
+.btn-primary, .btn-order {
+    display: inline-block;
+    margin: 10px 10px;
+    padding: 16px 45px;
+    background: linear-gradient(135deg, #d4af37, #b8860b);
+    color: #000;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 8px 30px rgba(212, 175, 55, 0.5);
+    border: none;
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-primary::before, .btn-order::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    transition: left 0.7s;
+}
+
+.btn-primary:hover::before, .btn-order:hover::before {
+    left: 100%;
+}
+
+.btn-primary:hover, .btn-order:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 15px 45px rgba(255, 215, 0, 0.8);
+    background: linear-gradient(135deg, #ffe44d, #d4af37);
+    color: #000;
+}
+
+/* ===================================================
+   PRODUCTS CONTAINER
+   =================================================== */
+.container {
+    padding: 100px 50px;
+    background: #020202;
+    position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at 50% 0%, rgba(212,175,55,0.04) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.decor-section {
+    margin-bottom: 100px;
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+.decor-section:nth-child(1) { animation-delay: 0s; }
+.decor-section:nth-child(2) { animation-delay: 0.2s; }
+.decor-section:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.section-title {
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+    color: #ffd700;
+    text-align: start;
+    position: relative;
+    padding-bottom: 20px;
+    display: inline-block;
+    letter-spacing: 1px;
+    font-weight: 900;
+    text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+.section-title i {
+    margin-left: 15px;
+    animation: sparkle 2s infinite;
+    color: #ffd700;
+}
+
+@keyframes sparkle {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.9); }
+}
+
+.section-title::after {
+    content: "";
+    position: absolute;
+    width: 60%;
+    height: 4px;
+    background: linear-gradient(90deg, #ffd700, transparent);
+    bottom: 0;
+    left: 0;
+    border-radius: 4px;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+}
+
+html[dir="ltr"] .section-title::after {
+    left: auto;
+    right: 0;
+    background: linear-gradient(270deg, #ffd700, transparent);
+}
+
+/* ===================================================
+   PRODUCTS GRID
+   =================================================== */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 35px;
+}
+
+.products-grid:not(.expanded) .product-card:nth-child(n+4) {
+    display: none;
+}
+
+/* ===================================================
+   PRODUCT CARD - بتصميم زجاجي ذهبي
+   =================================================== */
+.product-card {
+    background: rgba(15, 15, 15, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 24px;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.7);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    position: relative;
+}
+
+.product-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    padding: 1.5px;
+    background: linear-gradient(135deg, rgba(255,215,0,0.4), transparent, rgba(255,215,0,0.2));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    transition: opacity 0.5s;
+}
+
+.product-card:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.9), 0 0 40px rgba(212, 175, 55, 0.3);
+    border-color: rgba(255, 215, 0, 0.5);
+}
+
+/* بطاقة الصورة الواحدة */
+.product-card.single-image {
+    flex-direction: row;
+    align-items: stretch;
+}
+
+[dir="rtl"] .product-card.single-image { flex-direction: row; }
+[dir="ltr"] .product-card.single-image { flex-direction: row-reverse; }
+
+.product-card.single-image .image-box {
+    flex: 0 0 45%;
+    max-width: 45%;
+    min-height: 280px;
+    overflow: hidden;
+    position: relative;
+}
+
+.product-card.single-image .image-box .main-product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+}
+
+.product-card.single-image .image-box:hover .main-product-img {
+    transform: scale(1.12);
+}
+
+.product-card.single-image .card-details {
+    flex: 1;
+    padding: 30px 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+    background: rgba(0,0,0,0.3);
+}
+
+/* بطاقة الصور المتعددة */
+.product-card.multi-image {
+    flex-direction: column;
+}
+
+.product-card.multi-image .image-box {
+    width: 100%;
+    position: relative;
+}
+
+.product-card.multi-image .image-box .main-product-img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+    border-radius: 24px 24px 0 0;
+    transition: transform 0.8s ease;
+}
+
+.product-card.multi-image .image-box:hover .main-product-img {
+    transform: scale(1.06);
+}
+
+/* ===================================================
+   THUMBNAILS - صور مصغرة بإطار ذهبي
+   =================================================== */
+.thumbnails-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 15px;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.thumb-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 2px solid rgba(255,255,255,0.15);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.thumb-img:hover {
+    border-color: #ffd700;
+    transform: scale(1.15);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
+}
+
+.thumb-img.active-thumb {
+    border-color: #ffd700;
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.9), inset 0 0 10px rgba(255,215,0,0.4);
+    transform: scale(1.15);
+}
+
+/* ===================================================
+   CARD TEXT
+   =================================================== */
+.card-details h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: #fff;
+    line-height: 1.4;
+    font-weight: 700;
+}
+
+.card-details p {
+    font-size: 0.95rem;
+    color: #bbb;
+    line-height: 1.8;
+    margin-bottom: 10px;
+}
+
+.product-note {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: #ffd700;
+    background: rgba(212, 175, 55, 0.15);
+    padding: 8px 20px;
+    border-radius: 30px;
+    margin-top: auto;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 215, 0, 0.4);
+    backdrop-filter: blur(10px);
+    font-weight: 600;
+}
+
+/* ===================================================
+   SHOW MORE BUTTON
+   =================================================== */
+.show-more-box {
+    text-align: center;
+    margin-top: 60px;
+}
+
+.btn-show-more {
+    background: transparent;
+    color: #ffd700;
+    border: 2px solid #ffd700;
+    padding: 16px 50px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+    letter-spacing: 1px;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 215, 0, 0.05);
+    text-transform: uppercase;
+}
+
+.btn-show-more:hover {
+    background: #ffd700;
+    color: #000;
+    transform: scale(1.08);
+    box-shadow: 0 15px 45px rgba(255, 215, 0, 0.6);
+    border-color: #ffd700;
+}
+
+/* ===================================================
+   CONTACT SECTION
+   =================================================== */
+.contact-section {
+    padding: 100px 50px;
+    background: #050505;
+    text-align: center;
+    position: relative;
+    border-top: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+.contact-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #ffd700, transparent);
+}
+
+.contact-title {
+    font-size: 2.8rem;
+    margin-bottom: 60px;
+    color: #ffd700;
+    position: relative;
+    display: inline-block;
+    font-weight: 900;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+.contact-title::after {
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 4px;
+    background: #ffd700;
+    border-radius: 4px;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.contact-card {
+    background: rgba(20, 20, 20, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 45px 30px;
+    border-radius: 24px;
+    transition: all 0.4s ease;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(212,175,55,0.08) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.6s;
+}
+
+.contact-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.9), 0 0 40px rgba(212, 175, 55, 0.2);
+    border-color: rgba(255, 215, 0, 0.5);
+}
+
+.contact-card:hover::before {
+    opacity: 1;
+}
+
+.contact-card i {
+    font-size: 3rem;
+    color: #ffd700;
+    margin-bottom: 20px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: inline-block;
+}
+
+.contact-card:hover i {
+    transform: scale(1.2) rotate(-5deg);
+    text-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
+}
+
+.contact-card h3 {
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    color: #fff;
+    font-weight: 700;
+}
+
+.contact-card p {
+    color: #bbb;
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+/* ===================================================
+   FOOTER
+   =================================================== */
+.main-footer {
+    text-align: center;
+    padding: 35px;
+    background: #000;
+    color: #888;
+    font-size: 0.95rem;
+    border-top: 1px solid #1a1a1a;
+    letter-spacing: 1px;
+}
+
+/* ===================================================
+   IMAGE LIGHTBOX - مودال أسود ذهبي
+   =================================================== */
+.image-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.98);
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-img {
+    max-width: 85%;
+    max-height: 85%;
+    border-radius: 20px;
+    box-shadow: 0 0 80px rgba(212, 175, 55, 0.5), 0 20px 60px rgba(0,0,0,0.9);
+    animation: zoomIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    user-select: none;
+    transition: transform 0.3s ease;
+    border: 2px solid rgba(255, 215, 0, 0.4);
+}
+
+.close-btn {
+    position: absolute;
+    top: 25px; right: 40px;
+    font-size: 60px;
+    color: #ffd700;
+    cursor: pointer;
+    font-weight: 300;
+    transition: all 0.3s ease;
+    z-index: 10000;
+    line-height: 1;
+}
+
+.close-btn:hover {
+    transform: scale(1.2) rotate(90deg);
+    color: #fff;
+    text-shadow: 0 0 40px rgba(255, 215, 0, 0.9);
+}
+
+.modal-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(10, 10, 10, 0.8);
+    border: 2px solid rgba(255, 215, 0, 0.6);
+    color: #ffd700;
+    width: 65px; height: 65px;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10000;
+    backdrop-filter: blur(15px);
+}
+
+.modal-arrow:hover {
+    background: #ffd700;
+    color: #000;
+    border-color: #ffd700;
+    box-shadow: 0 0 50px rgba(255, 215, 0, 0.9);
+    transform: translateY(-50%) scale(1.15);
+}
+
+.left-arrow  { left: 40px; }
+.right-arrow { right: 40px; }
+
+/* ===================================================
+   ANIMATIONS
+   =================================================== */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===================================================
+   RESPONSIVE - متجاوب بالكامل
+   =================================================== */
+@media (max-width: 768px) {
+    .hero-section {
+        background-attachment: scroll;
+    }
+
+    .navbar {
+        position: sticky;
+        padding: 12px 15px;
+    }
+
+    .nav-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    /* القائمة تبقى موسطة على الجوال أيضاً */
+    .dropdown-content {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-content p {
+        font-size: 1.1rem;
+    }
+
+    .btn-primary, .btn-order {
+        display: block;
+        width: fit-content;
+        margin: 10px auto;
+        padding: 14px 30px;
+        font-size: 0.9rem;
+    }
+
+    #btnOrder {
+        margin-right: 0 !important;
+    }
+
+    .container {
+        padding: 60px 20px;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+        text-align: center;
+    }
+
+    .products-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .product-card.single-image {
+        flex-direction: column !important;
+    }
+
+    .product-card.single-image .image-box {
+        flex: unset;
+        max-width: 100%;
+        width: 100%;
+        min-height: 240px;
+        max-height: 300px;
+    }
+
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-arrow { width: 50px; height: 50px; font-size: 24px; }
+    .left-arrow  { left: 15px; }
+    .right-arrow { right: 15px; }
+    .modal-img   { max-width: 95%; }
+    .close-btn   { top: 15px; right: 20px; font-size: 45px; }
+}
