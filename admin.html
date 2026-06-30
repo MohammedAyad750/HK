@@ -3,38 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مركز تحكم HK - Supabase</title>
+    <title>مركز تحكم HK - رفع صور (Supabase + بيانات محلية)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
+        /* ========== جميع أنماط الـ CSS كما هي بدون تغيير ========== */
         :root {
-            --bg: #0d0d0d; --surface: #1a1a1a; --gold: #c9a84c; --text: #e0d3b8;
-            --border: rgba(201,168,76,0.2); --red: #d64545;
+            --bg: #0d0d0d;
+            --surface: #1a1a1a;
+            --gold: #c9a84c;
+            --text: #e0d3b8;
+            --border: rgba(201,168,76,0.2);
+            --red: #d64545;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); padding: 20px; direction: rtl; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            padding: 20px;
+            direction: rtl;
+        }
         .container { max-width: 1000px; margin: 0 auto; }
-        .card { background: var(--surface); border-radius: 12px; padding: 24px; margin-bottom: 20px; border: 1px solid var(--border); box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+        .card {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
         h1, h2, h3 { color: var(--gold); margin-bottom: 12px; }
         .flex-between { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-        button { background: var(--gold); color: #000; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 14px; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+        button {
+            background: var(--gold);
+            color: #000;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
         button:hover { filter: brightness(1.2); }
         button.danger { background: var(--red); color: #fff; }
         button.danger:hover { background: #c0392b; }
         button.secondary { background: transparent; border: 1px solid var(--gold); color: var(--gold); }
         button.secondary:hover { background: rgba(201,168,76,0.15); }
-        input, textarea, select { width: 100%; padding: 10px 14px; margin: 6px 0 12px; background: #0d0d0d; border: 1px solid var(--border); color: var(--text); border-radius: 8px; font-family: inherit; font-size: 14px; }
+        button.import-btn { background: #27ae60; color: white; }
+        button.import-btn:hover { background: #2ecc71; }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px 14px;
+            margin: 6px 0 12px;
+            background: #0d0d0d;
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+        }
         input:focus, textarea:focus { border-color: var(--gold); outline: none; }
+        input[type="file"] { padding: 8px; }
+
         .lang-tabs { display: flex; gap: 8px; margin: 12px 0; }
-        .lang-tabs button { background: #2a2a2a; color: #aaa; padding: 8px 16px; border-radius: 20px; font-weight: normal; border: none; }
+        .lang-tabs button {
+            background: #2a2a2a; color: #aaa; padding: 8px 16px;
+            border-radius: 20px; font-weight: normal; border: none;
+        }
         .lang-tabs button.active { background: var(--gold); color: #000; }
-        .section-box { background: #111; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 24px; overflow: hidden; }
-        .section-header { background: #1e1e1e; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; border-bottom: 1px solid var(--border); }
-        .product-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap; gap: 10px; }
+
+        .section-box {
+            background: #111;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+        .section-header {
+            background: #1e1e1e;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        .section-header h3 { margin: 0; font-size: 18px; }
+        .product-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            flex-wrap: wrap; gap: 10px;
+        }
         .product-item:last-child { border-bottom: none; }
         .product-name { font-weight: bold; }
         .product-note { color: #aaa; font-size: 13px; margin-inline-start: 8px; }
-        .login-screen { max-width: 400px; margin: 80px auto; text-align: center; }
+
+        .login-screen {
+            max-width: 400px; margin: 80px auto;
+            text-align: center;
+        }
         .hidden { display: none !important; }
         .msg { margin: 10px 0; font-weight: bold; }
         .msg.success { color: #2ecc71; }
@@ -58,7 +133,7 @@
     </div>
     <div id="messageBox" class="msg success"></div>
 
-    <!-- إضافة قسم -->
+    <!-- ====== إضافة قسم جديد ====== -->
     <div class="card">
         <h2>إضافة قسم جديد</h2>
         <input type="text" id="newSectionId" placeholder="معرّف القسم (مثلاً: turkish)">
@@ -73,7 +148,7 @@
         <button onclick="addSection()"><i class="fa-solid fa-plus"></i> إضافة القسم</button>
     </div>
 
-    <!-- إضافة منتج -->
+    <!-- إضافة منتج جديد -->
     <div class="card">
         <h2>إضافة منتج جديد</h2>
         <select id="productCategorySelect"></select>
@@ -116,24 +191,101 @@ const { createClient } = supabase;
 const supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
 
 const ADMIN_PASSWORD = "admin123";
+
+// ======================= بيانات افتراضية (بياناتك القديمة) =======================
+const defaultData = {
+    ar: {
+        sections: [
+            {
+                id: "agency", title: "قسم العطور الخاصة بوكالتنا",
+                items: [
+                    { name: " عبق", features: "الجنس : يونيسكس | النوتات العطرية :- حمضيات - خشبي - سويت - توابل -فاكهي - عنبر -  اروماتك  | الفوحان عالي جداً |الثبات اقل مدة لثاني يوم", placeholder: "images/water1.jpg", note: "سعر 35 د.ع للزجاجة 50 مل" },
+                    { name: "العنود", features: "الجنس : يونيسكس | النوتات العطرية :- زهري - اروماتك - فريش - ناعم - فاكهي - خشبي - منعش - حمضيات | الفوحان  عالي جداً | الثبات اقل مده الثاني يوم", placeholder: "images/water2.jpg", note: "سعر 35 د.ع للزجاجة 50 مل" },
+                    { name: "بلو آيريس", features: "الجنس : يونيسكس | النوتات العطرية :- زهري - فاكهي - باتشولي - ناعم - فريش | الفوحان  عالي جداً | الثبات اقل مده 24 ساعة", placeholder: "images/water3.jpg", note: "سعر 45 د.ع للزجاجة 50 مل" },
+                    { name: "سويت وورلد", features: "الجنس : يونيسكس | النوتات العطرية :- زهر البرتقال - فانيلا - حلوي - لوز - مسك - اروماتك - حمضيات - قهوة | الفوحان  عالي جداً | الثبات اقل مده 24 ساعة", placeholder: "images/water4.jpg", note: "سعر 45 د.ع للزجاجة 50 مل" },
+                    { name: "جيفورا", features: "الجنس : يونيسكس | النوتات العطرية :- حمضيات - خشبي - اروماتك - حلو - زهري - ترابي - فانيلا| الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water5.jpg", note: "سعر 35 د.ع للزجاجة 50 مل" },
+                    { name: "هيلتون عود", features: " الجنس : يونيسكس | النوتات العطرية :- باودر - فانيلا - خشب بارد - عنبر - صندل  | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water7.jpg", note: "سعر 50 د.ع للزجاجة 50 مل" },
+                    { name: "يزار", features: "الجنس : يونيسكس | النوتات العطرية :- فاكهي - زهري - فريش - ناعم - صنوبر - خشبي - منعش - عنبر - اشجار   | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water8.jpg", note: "سعر 35 د.ع للزجاجة 50 مل" }
+                ]
+            },
+            {
+                id: "french", title: "قسم العطور الفرنسية",
+                items: [
+                    { name: "انجيلز شير", features: "الجنس : يونيسكس | النوتات العطرية :- تابلي دافئ - خشبي - حلو - فانيلا - قرفة - عنبر - ناعم   | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water9.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water9.jpg","images/water10.jpg"] },
+                    { name: "تيري دي هيرميس", features: "الجنس : للرجال | النوتات العطرية :- حمضيات - خشبي - تابلي منعش - اروماتك - ترابي - تابلي دافئ    | الفوحان  عالي  | الثبات اقل مده 12 ساعة", placeholder: "images/water11.jpg", note: "سعر 25 د.ع للزجاجة 50 مل", images: ["images/water11.jpg","images/water12.jpg"] },
+                    { name: "سكاندل گولد", features: "الجنس : للنساء | النوتات العطرية :- تابلي دافئ - خشبي - جلود - ترابي - عسل - باتشولي - حيواني - زهري - حلو - الزهور البيضاء    | الفوحان  عالي  | الثبات اقل مده 12 ساعة", placeholder: "images/water13.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water13.jpg","images/water14.jpg"] },
+                    { name: "الين مان", features: "الجنس : للرجال | النوتات العطرية :- تابلي منعش - خشبي - اروماتك - العنبر - عشبي - مسكي - الينسون - توابل ناعم - جلود - زهري    | الفوحان  عالي  | الثبات اقل مده 12 ساعة", placeholder: "images/water15.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water15.jpg","images/water16.jpg"] },
+                    { name: "ماي سيلف", features: "الجنس : للرجال | النوتات العطرية :- حمضيات - الزهور البيضاء - الباتشولي - تابلي منعش - خشبي - حلو      | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water25.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water25.jpg","images/water26.jpg"] },
+                    { name: "بيبي كات", features: "الجنس : يونيسكس | النوتات العطرية :- فانيلا - تابلي منعش - جلود - تابلي دافئ - عنبر - ناعم - مسكي - اروماتك - بلسمي - خشبي    | الفوحان  عالي جداً | الثبات اقل مده الثاني يوم", placeholder: "images/water27.jpg", note: "سعر 45 د.ع للزجاجة 50 مل", images: ["images/water27.jpg","images/water28.jpg"] },
+                    { name: "كوير انتينس", features: "الجنس : يونيسكس | النوتات العطرية :- الجلود - خشبي - التبغ - حيواني - فاكهي - حلو - زهري - مدخن - ناعم    | الفوحان  عالي جداً | الثبات اقل مده الثاني يوم", placeholder: "images/water29.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water29.jpg","images/water30.jpg"] }
+                ]
+            },
+            {
+                id: "italian", title: "قسم العطور الايطالية",
+                items: [
+                    { name: "ايتاليكا", features: "الجنس : يونيسكس | النوتات العطرية :- حلو - اللوز - الفانيلا - لاكتوني - خشبي - تابلي دافئ - ناعم - الجوز - فاكهي - الكراميل    | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water17.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water17.jpg","images/water18.jpg"] },
+                    { name: "كود بارفيوم", features: "الجنس : للرجال | النوتات العطرية :- السوسن - اروماتك - ناعم - خشبي - حمضيات - فانيلا - ترابي - الدهيد - البنفسج - تابلي منعش     | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water21.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water21.jpg","images/water22.jpg"] },
+                    { name: "انتينس عود", features: "الجنس : يونيسكس | النوتات العطرية :-  عنبر - عود - جلود - تابلي منعش - تابلي دافئ - حيواني - فاكهي - مدخن - حلو - خشبي     | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water33.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water33.jpg","images/water34.jpg"] },
+                    { name: "اومو انتينيس", features: "الجنس : للرجال | النوتات العطرية :-  فانيلا - سوسن - ناعم - جلود - بنفسج - حلو - ترابي - اروماتك - حيواني - عنبر       | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water39.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water39.jpg","images/water40.jpg"] }
+                ]
+            },
+            {
+                id: "american", title: "قسم العطور الامريكية",
+                items: [
+                    { name: "عود وود", features: "الجنس : يونيسكس | النوتات العطرية :- خشبي - تابلي دافئ - العود - اروماتك - الفانيلا - بلسمي - تابلي منعش - العنبر - ناعم - حلو     | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water23.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water23.jpg","images/water24.jpg"] },
+                    { name: "فيري گود گيرل", features: "الجنس : للنساء | النوتات العطرية :- فاكهي - ورد - منعش - فانيلا - استوائي - توابل ناعم - حلو - حامض     | الفوحان  عالي جداً | الثبات اقل مده الثاني يوم", placeholder: "images/water31.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water31.jpg","images/water32.jpg"] },
+                    { name: "هير سكرت", features: "الجنس : للنساء | النوتات العطرية :-خشبي - فاكهي - فانيلا - حلو - الزهور البيضاء - حمضيات - عنبر - ناعم - اروماتك - مسك الروم      | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water35.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water35.jpg","images/water36.jpg"] },
+                    { name: "سترونك ويذ يو توباكو", features: "الجنس : للرجال | النوتات العطرية :- تابلي دافئ - عنبر - تبغ - فانيلا - حلو - اروماتك - توابل ناعم - بلسمي - تابلي منعش - خشبي      | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water35.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water35.jpg","images/water36.jpg"] }
+                ]
+            },
+            {
+                id: "qatari", title: "قسم العطور القطرية",
+                items: [
+                    { name: "ديماسكوس", features: "الجنس : يونيسكس | النوتات العطرية :- الزهور البيضاء - ورد - مسك الروم - ناعم - زهري - الفانيلا - مسكي - فاكهي - حلو - حيواني     | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water19.jpg", note: "سعر 45 د.ع للزجاجة 50 مل", images: ["images/water19.jpg","images/water20.jpg"] }
+                ]
+            }
+        ]
+    }
+};
+
+// ======================= متغيرات عامة =======================
 let allCategories = [];
 let allProducts = [];
 
 // ======================= تحميل البيانات =======================
 async function loadData() {
-    const { data: categories, error: catErr } = await supabaseClient.from('categories').select('*');
-    if (catErr) {
-        showMessage('خطأ في تحميل الأقسام: ' + catErr.message, 'error');
-        return;
-    }
+    const { data: categories } = await supabaseClient.from('categories').select('*');
     allCategories = categories || [];
-
-    const { data: products, error: prodErr } = await supabaseClient.from('products').select('*');
-    if (prodErr) {
-        showMessage('خطأ في تحميل المنتجات: ' + prodErr.message, 'error');
-        return;
-    }
+    const { data: products } = await supabaseClient.from('products').select('*');
     allProducts = products || [];
+
+    // إذا كانت قاعدة البيانات فارغة، اعرض البيانات الافتراضية
+    if (allCategories.length === 0) {
+        allCategories = defaultData.ar.sections.map(cat => ({
+            id: cat.id,
+            title_ar: cat.title,
+            title_ku: cat.title,
+            title_en: cat.title
+        }));
+    }
+    if (allProducts.length === 0) {
+        allProducts = [];
+        defaultData.ar.sections.forEach(cat => {
+            cat.items.forEach(item => {
+                allProducts.push({
+                    id: null,
+                    category_id: cat.id,
+                    name_ar: item.name,
+                    name_ku: item.name,
+                    name_en: item.name,
+                    features_ar: item.features,
+                    note_ar: item.note,
+                    placeholder: item.placeholder,
+                    images: item.images || []
+                });
+            });
+        });
+    }
 }
 
 // ======================= عرض =======================
@@ -157,7 +309,9 @@ function renderSections() {
         secDiv.innerHTML = `
             <div class="section-header">
                 <h3>${cat.title_ar} (${cat.id})</h3>
-                <button class="danger" onclick="deleteCategory('${cat.id}')"><i class="fa-solid fa-trash"></i> حذف القسم</button>
+                <div>
+                    <button class="danger" onclick="deleteCategory('${cat.id}')"><i class="fa-solid fa-trash"></i> حذف القسم</button>
+                </div>
             </div>
             <div id="products-${cat.id}"></div>
         `;
@@ -185,47 +339,57 @@ function renderProducts(categoryId) {
 async function addSection() {
     const id = document.getElementById('newSectionId').value.trim();
     const titleAr = document.getElementById('newSectionTitle_ar').value.trim();
-    if (!id || !titleAr) return alert('أدخل معرف القسم واسمه');
+    if (!id || !titleAr) return alert('أدخل معرف القسم واسمه بالعربية');
     const titleKu = document.getElementById('newSectionTitle_ku').value.trim() || titleAr;
     const titleEn = document.getElementById('newSectionTitle_en').value.trim() || titleAr;
 
-    const { error } = await supabaseClient.from('categories').insert({ id, title_ar: titleAr, title_ku: titleKu, title_en: titleEn });
-    if (error) return showMessage('خطأ: ' + error.message, 'error');
+    const { error } = await supabaseClient.from('categories').insert({
+        id, title_ar: titleAr, title_ku: titleKu, title_en: titleEn
+    });
+    if (error) return alert('خطأ: ' + error.message);
 
-    ['newSectionId','newSectionTitle_ar','newSectionTitle_ku','newSectionTitle_en'].forEach(f => document.getElementById(f).value = '');
+    document.getElementById('newSectionId').value = '';
+    document.getElementById('newSectionTitle_ar').value = '';
+    document.getElementById('newSectionTitle_ku').value = '';
+    document.getElementById('newSectionTitle_en').value = '';
     await refreshAll();
     showMessage('تم إضافة القسم');
 }
 
-// ======================= إضافة منتج مع رفع الصور =======================
+// ======================= إضافة منتج =======================
 async function addNewProduct() {
     const categoryId = document.getElementById('productCategorySelect').value;
-    if (!categoryId) return alert('اختر القسم');
+    if (!categoryId) return alert('اختر القسم أولاً');
 
     const nameAr = document.getElementById('productName_ar').value.trim();
-    if (!nameAr) return alert('أدخل اسم المنتج');
+    if (!nameAr) return alert('أدخل اسم المنتج بالعربية');
+    const nameKu = document.getElementById('productName_ku').value.trim() || nameAr;
+    const nameEn = document.getElementById('productName_en').value.trim() || nameAr;
+
+    const featAr = document.getElementById('productFeatures_ar').value.trim();
+    const featKu = document.getElementById('productFeatures_ku').value.trim() || featAr;
+    const featEn = document.getElementById('productFeatures_en').value.trim() || featAr;
+
+    const noteAr = document.getElementById('productNote_ar').value.trim();
+    const noteKu = document.getElementById('productNote_ku').value.trim() || noteAr;
+    const noteEn = document.getElementById('productNote_en').value.trim() || noteAr;
 
     const mainFile = document.getElementById('mainImageFile').files[0];
-    if (!mainFile) return alert('اختر صورة رئيسية');
-
-    // التأكد من وجود bucket الصور (اختياري)
-    const { data: buckets } = await supabaseClient.storage.listBuckets();
-    if (!buckets || !buckets.find(b => b.name === 'product-images')) {
-        return showMessage('الرجاء إنشاء bucket باسم product-images في Supabase Storage', 'error');
+    let placeholder = '';
+    if (mainFile) {
+        const mainFileName = `${Date.now()}_${mainFile.name}`;
+        const { error: mainError } = await supabaseClient.storage.from('product-images').upload(mainFileName, mainFile);
+        if (mainError) return alert('فشل رفع الصورة: ' + mainError.message);
+        placeholder = supabaseClient.storage.from('product-images').getPublicUrl(mainFileName).data.publicUrl;
+    } else {
+        placeholder = 'images/water1.jpg'; // صورة افتراضية
     }
 
-    // رفع الصورة الرئيسية
-    const mainFileName = Date.now() + '_' + mainFile.name;
-    const { error: mainError } = await supabaseClient.storage.from('product-images').upload(mainFileName, mainFile);
-    if (mainError) return showMessage('فشل رفع الصورة: ' + mainError.message, 'error');
-    const placeholder = supabaseClient.storage.from('product-images').getPublicUrl(mainFileName).data.publicUrl;
-
-    // رفع الصور الإضافية
     let images = [];
     const extraFiles = document.getElementById('extraImagesFiles').files;
     for (let i = 0; i < extraFiles.length; i++) {
         const file = extraFiles[i];
-        const fileName = Date.now() + '_' + i + '_' + file.name;
+        const fileName = `${Date.now()}_${i}_${file.name}`;
         const { error } = await supabaseClient.storage.from('product-images').upload(fileName, file);
         if (!error) {
             const url = supabaseClient.storage.from('product-images').getPublicUrl(fileName).data.publicUrl;
@@ -235,48 +399,48 @@ async function addNewProduct() {
 
     const newProduct = {
         category_id: categoryId,
-        name_ar: nameAr,
-        name_ku: document.getElementById('productName_ku').value.trim() || nameAr,
-        name_en: document.getElementById('productName_en').value.trim() || nameAr,
-        features_ar: document.getElementById('productFeatures_ar').value.trim(),
-        features_ku: document.getElementById('productFeatures_ku').value.trim(),
-        features_en: document.getElementById('productFeatures_en').value.trim(),
-        note_ar: document.getElementById('productNote_ar').value.trim(),
-        note_ku: document.getElementById('productNote_ku').value.trim(),
-        note_en: document.getElementById('productNote_en').value.trim(),
+        name_ar: nameAr, name_ku: nameKu, name_en: nameEn,
+        features_ar: featAr, features_ku: featKu, features_en: featEn,
+        note_ar: noteAr, note_ku: noteKu, note_en: noteEn,
         placeholder: placeholder,
         images: images
     };
 
     const { error } = await supabaseClient.from('products').insert(newProduct);
-    if (error) return showMessage('خطأ: ' + error.message, 'error');
+    if (error) return alert('خطأ في الإضافة: ' + error.message);
 
-    // مسح الحقول
     document.querySelectorAll('#dashboard input[type=text], #dashboard textarea').forEach(el => el.value = '');
     document.getElementById('mainImageFile').value = '';
     document.getElementById('mainImagePreview').classList.add('hidden');
     document.getElementById('extraImagesFiles').value = '';
     document.getElementById('extraImagesPreview').innerHTML = '';
+
     await refreshAll();
     showMessage('تم إضافة المنتج');
 }
 
 // ======================= حذف =======================
-async function deleteProduct(id) {
-    if (!confirm('حذف المنتج؟')) return;
-    const { error } = await supabaseClient.from('products').delete().eq('id', id);
-    if (error) showMessage(error.message, 'error');
+async function deleteProduct(productId) {
+    if (!productId) {
+        // منتج محلي (غير موجود في Supabase)
+        showMessage('هذا المنتج محلي ولا يمكن حذفه من Supabase');
+        return;
+    }
+    if (!confirm('حذف هذا المنتج؟')) return;
+    const { error } = await supabaseClient.from('products').delete().eq('id', productId);
+    if (error) alert('خطأ: ' + error.message);
     else { await refreshAll(); showMessage('تم الحذف'); }
 }
 
-async function deleteCategory(id) {
+async function deleteCategory(categoryId) {
     if (!confirm('حذف القسم وجميع منتجاته؟')) return;
-    await supabaseClient.from('products').delete().eq('category_id', id);
-    const { error } = await supabaseClient.from('categories').delete().eq('id', id);
-    if (error) showMessage(error.message, 'error');
+    await supabaseClient.from('products').delete().eq('category_id', categoryId);
+    const { error } = await supabaseClient.from('categories').delete().eq('id', categoryId);
+    if (error) alert('خطأ: ' + error.message);
     else { await refreshAll(); showMessage('تم حذف القسم'); }
 }
 
+// ======================= تحديث =======================
 async function refreshAll() {
     await loadData();
     populateCategorySelect();
@@ -293,18 +457,20 @@ async function login() {
         document.getElementById('loginError').textContent = 'كلمة المرور غير صحيحة';
     }
 }
+
 function logout() {
     document.getElementById('dashboard').classList.add('hidden');
     document.getElementById('loginScreen').classList.remove('hidden');
 }
-function showMessage(msg, type = 'success') {
+
+function showMessage(msg) {
     const box = document.getElementById('messageBox');
     box.textContent = msg;
-    box.className = 'msg ' + type;
-    setTimeout(() => { box.textContent = ''; box.className = 'msg'; }, 5000);
+    box.className = 'msg success';
+    setTimeout(() => { box.textContent = ''; box.className = 'msg'; }, 4000);
 }
 
-// ======================= معاينة الصور =======================
+// معاينة الصور
 document.getElementById('mainImageFile').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
@@ -316,6 +482,7 @@ document.getElementById('mainImageFile').addEventListener('change', function(e) 
         reader.readAsDataURL(file);
     }
 });
+
 document.getElementById('extraImagesFiles').addEventListener('change', function(e) {
     const container = document.getElementById('extraImagesPreview');
     container.innerHTML = '';
