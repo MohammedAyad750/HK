@@ -473,6 +473,15 @@ document.addEventListener('keydown', e => {
 })();
 </script>
 
+<!-- ========== تهيئة Supabase (تمت الإضافة) ========== -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    const supabaseUrl = 'https://lkfmttbrnkmylhidcqdl.supabase.co';
+    const supabaseAnonKey = 'sb_publishable_Kfpp1ztrWmCO27tuRfS9sg_f8xBCOEL';
+    const { createClient } = supabase;
+    const supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
+</script>
+
 <!-- ملف البيانات الرئيسي -->
 <script src="js/index.js"></script>
 
