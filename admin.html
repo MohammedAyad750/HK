@@ -186,16 +186,11 @@
     <!-- عرض الأقسام والمنتجات -->
     <div id="sectionsContainer"></div>
 
-    <!-- زر تحميل data.json -->
-    <button onclick="downloadDataJSON()" style="width:100%; margin-top:10px; padding:14px; background:#2a2a2a; color:var(--gold); border:1px solid var(--gold);">
-        <i class="fa-solid fa-download"></i> تحميل ملف data.json
-    </button>
-
     <!-- زر الحفظ -->
     <button onclick="saveAll()" style="width:100%; margin-top:10px; padding:14px;">
         <i class="fa-solid fa-floppy-disk"></i> حفظ جميع التغييرات
     </button>
-    <p style="text-align:center; color:#777; margin-top:8px;">بعد الحفظ، حمّل ملف data.json وارفعه إلى مجلد الموقع الرئيسي.</p>
+    <p style="text-align:center; color:#777; margin-top:8px;">سيتم تطبيق التغييرات على موقع العميل بعد الحفظ.</p>
 </div>
 
 <script>
@@ -483,21 +478,7 @@ function logout() {
 
 function saveAll() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    showMessage('تم حفظ البيانات بنجاح. الآن حمّل ملف data.json وارفعه إلى موقعك.', 'success');
-}
-
-function downloadDataJSON() {
-    const jsonStr = JSON.stringify(data, null, 2);
-    const blob = new Blob([jsonStr], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'data.json';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    showMessage('تم تحميل data.json. ارفعه الآن إلى مجلد موقعك الرئيسي.', 'success');
+    showMessage('تم حفظ البيانات بنجاح', 'success');
 }
 
 function showMessage(msg, type) {
@@ -558,6 +539,7 @@ function renderProducts(secIdx) {
 }
 
 function showAddProduct(secIdx) {
+    // يمكنك توجيه المستخدم لنموذج الإضافة الجديد أو استخدام prompt (لكن يفضل النموذج الجديد)
     document.getElementById('productCategorySelect').value = secIdx;
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
