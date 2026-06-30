@@ -619,65 +619,82 @@ let multilingualData = {
     }
 };
 
-// =================== تحميل البيانات من Supabase ===================
-async function loadDataFromSupabase() {
+// =================== تحميل البيانات من IndexedDB (لوحة التحكم) ===================
+const DB_NAME = 'HK_Perfumes_DB';
+const DB_VERSION = 1;
+const STORE_NAME = 'perfume_data';
+const DATA_KEY = 'main_data';
+
+function openDB() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains(STORE_NAME)) {
+                db.createObjectStore(STORE_NAME);
+            }
+        };
+        request.onsuccess = (event) => resolve(event.target.result);
+        request.onerror = (event) => reject(event.target.error);
+    });
+}
+
+async function loadDataFromDB() {
     try {
-        // جلب الأقسام
-        const { data: categories, error: catError } = await supabaseClient
-            .from('categories')
-            .select('*');
-
-        if (catError) {
-            console.error('خطأ في جلب الأقسام:', catError);
-            return;
-        }
-
-        // جلب المنتجات
-        const { data: products, error: prodError } = await supabaseClient
-            .from('products')
-            .select('*');
-
-        if (prodError) {
-            console.error('خطأ في جلب المنتجات:', prodError);
-            return;
-        }
-
-        // دالة مساعدة لبناء sections حسب اللغة
-        function buildSections(lang) {
-            if (!categories || categories.length === 0) return null;
-            return categories.map(cat => ({
-                id: cat.id,
-                title: cat['title_' + lang] || cat.title_ar,
-                items: (products || [])
-                    .filter(p => p.category_id === cat.id)
-                    .map(p => ({
-                        name: p['name_' + lang] || p.name_ar,
-                        features: p['features_' + lang] || p.features_ar || '',
-                        placeholder: p.placeholder,
-                        note: p['note_' + lang] || p.note_ar,
-                        images: p.images || []
-                    }))
-            }));
-        }
-
-        // تحديث sections فقط إذا توجد بيانات من Supabase
-        const arSections = buildSections('ar');
-        if (arSections && arSections.length > 0) {
-            multilingualData.ar.sections = arSections;
-            multilingualData.ku.sections = buildSections('ku') || multilingualData.ku.sections;
-            multilingualData.en.sections = buildSections('en') || multilingualData.en.sections;
-        }
-        // إذا لم توجد بيانات، تبقى البيانات الافتراضية كما هي
-
-    } catch (error) {
-        console.error('فشل تحميل البيانات من Supabase:', error);
-        // في حال فشل الاتصال، تبقى البيانات الافتراضية
+        const db = await openDB();
+        const transaction = db.transaction(STORE_NAME, 'readonly');
+        const store = transaction.objectStore(STORE_NAME);
+        const getRequest = store.get(DATA_KEY);
+        return new Promise((resolve, reject) => {
+            getRequest.onsuccess = () => {
+                if (getRequest.result) {
+                    resolve(getRequest.result);
+                } else {
+                    // لا توجد بيانات، حاول localStorage
+                    const stored = localStorage.getItem('hk_perfume_data');
+                    if (stored) {
+                        try {
+                            const parsed = JSON.parse(stored);
+                            resolve(parsed);
+                        } catch (e) {
+                            resolve(null);
+                        }
+                    } else {
+                        resolve(null);
+                    }
+                }
+            };
+            getRequest.onerror = () => {
+                // fallback to localStorage
+                const stored = localStorage.getItem('hk_perfume_data');
+                if (stored) {
+                    try {
+                        resolve(JSON.parse(stored));
+                    } catch (e) {
+                        resolve(null);
+                    }
+                } else {
+                    resolve(null);
+                }
+            };
+        });
+    } catch (e) {
+        console.warn('IndexedDB غير متاح، استخدام localStorage');
+        const stored = localStorage.getItem('hk_perfume_data');
+        return stored ? JSON.parse(stored) : null;
     }
 }
 
-// بدء التشغيل: تحميل البيانات ثم بناء الصفحة
+// تحميل البيانات ثم بدء الموقع
 (async function init() {
-    await loadDataFromSupabase();
+    const adminData = await loadDataFromDB();
+    if (adminData) {
+        for (let lang in adminData) {
+            if (multilingualData[lang]) {
+                multilingualData[lang] = adminData[lang];
+            }
+        }
+    }
     const lang = getLanguageFromURL();
     applyDirection(lang);
     fillContent(lang);

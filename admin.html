@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مركز تحكم HK - رفع صور (Supabase + بيانات محلية)</title>
+    <title>مركز تحكم HK - رفع صور</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        /* ========== جميع أنماط الـ CSS كما هي بدون تغيير ========== */
         :root {
             --bg: #0d0d0d;
             --surface: #1a1a1a;
@@ -54,8 +52,6 @@
         button.danger:hover { background: #c0392b; }
         button.secondary { background: transparent; border: 1px solid var(--gold); color: var(--gold); }
         button.secondary:hover { background: rgba(201,168,76,0.15); }
-        button.import-btn { background: #27ae60; color: white; }
-        button.import-btn:hover { background: #2ecc71; }
 
         input, textarea, select {
             width: 100%;
@@ -119,6 +115,7 @@
 </head>
 <body>
 
+<!-- شاشة تسجيل الدخول -->
 <div id="loginScreen" class="login-screen card">
     <h1><i class="fa-solid fa-lock"></i> دخول المدير</h1>
     <input type="password" id="passwordInput" placeholder="كلمة المرور">
@@ -126,11 +123,13 @@
     <p id="loginError" class="msg error"></p>
 </div>
 
+<!-- لوحة التحكم الرئيسية -->
 <div id="dashboard" class="container hidden">
     <div class="flex-between" style="margin-bottom:20px;">
-        <h1>لوحة تحكم HK</h1>
+        <h1 style="margin:0;">لوحة تحكم HK</h1>
         <button class="secondary" onclick="logout()">تسجيل الخروج</button>
     </div>
+
     <div id="messageBox" class="msg success"></div>
 
     <!-- ====== إضافة قسم جديد ====== -->
@@ -152,49 +151,62 @@
     <div class="card">
         <h2>إضافة منتج جديد</h2>
         <select id="productCategorySelect"></select>
+
         <div class="lang-tabs" id="productLangTabs">
             <button class="active" data-lang="ar">العربية</button>
             <button data-lang="ku">کوردی</button>
             <button data-lang="en">English</button>
         </div>
+
         <input type="text" id="productName_ar" placeholder="اسم المنتج (عربي)">
         <input type="text" id="productName_ku" class="lang-hide" data-lang="ku" placeholder="اسم المنتج (کوردی)" style="display:none;">
-        <input type="text" id="productName_en" class="lang-hide" data-lang="en" placeholder="Product Name" style="display:none;">
+        <input type="text" id="productName_en" class="lang-hide" data-lang="en" placeholder="اسم المنتج (English)" style="display:none;">
+
         <textarea id="productFeatures_ar" placeholder="الميزات (عربي)"></textarea>
         <textarea id="productFeatures_ku" class="lang-hide" data-lang="ku" placeholder="الميزات (کوردی)" style="display:none;"></textarea>
-        <textarea id="productFeatures_en" class="lang-hide" data-lang="en" placeholder="Features" style="display:none;"></textarea>
+        <textarea id="productFeatures_en" class="lang-hide" data-lang="en" placeholder="Features (English)" style="display:none;"></textarea>
+
         <input type="text" id="productNote_ar" placeholder="ملاحظة السعر (عربي)">
         <input type="text" id="productNote_ku" class="lang-hide" data-lang="ku" placeholder="نرخ (کوردی)" style="display:none;">
-        <input type="text" id="productNote_en" class="lang-hide" data-lang="en" placeholder="Price note" style="display:none;">
+        <input type="text" id="productNote_en" class="lang-hide" data-lang="en" placeholder="Price note (English)" style="display:none;">
+
+        <!-- رفع الصورة الرئيسية -->
         <label>الصورة الرئيسية:</label>
         <input type="file" id="mainImageFile" accept="image/*">
         <img id="mainImagePreview" class="preview-img hidden" alt="معاينة">
-        <label>صور إضافية:</label>
+
+        <!-- رفع صور إضافية -->
+        <label>صور إضافية (اختياري):</label>
         <input type="file" id="extraImagesFiles" accept="image/*" multiple>
         <div id="extraImagesPreview" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;"></div>
+
         <button onclick="addNewProduct()"><i class="fa-solid fa-plus"></i> إضافة المنتج</button>
     </div>
 
+    <!-- عرض الأقسام والمنتجات -->
     <div id="sectionsContainer"></div>
 
-    <button onclick="refreshAll()" style="width:100%; margin-top:10px; padding:14px;">
-        <i class="fa-solid fa-arrows-rotate"></i> تحديث القائمة
+    <!-- زر الحفظ -->
+    <button onclick="saveAll()" style="width:100%; margin-top:10px; padding:14px;">
+        <i class="fa-solid fa-floppy-disk"></i> حفظ جميع التغييرات
     </button>
-    <p style="text-align:center; color:#777; margin-top:8px;">يتم حفظ التغييرات تلقائياً في قاعدة البيانات.</p>
+    <p style="text-align:center; color:#777; margin-top:8px;">سيتم تطبيق التغييرات على موقع العميل بعد الحفظ.</p>
 </div>
 
 <script>
-// ======================= إعدادات Supabase =======================
-const supabaseUrl = 'https://lkfmttbrnkmylhidcqdl.supabase.co';
-const supabaseAnonKey = 'sb_publishable_Kfpp1ztrWmCO27tuRfS9sg_f8xBCOEL';
-const { createClient } = supabase;
-const supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
-
-const ADMIN_PASSWORD = "admin123";
-
-// ======================= بيانات افتراضية (بياناتك القديمة) =======================
+// ======================= بيانات افتراضية (كاملة) =======================
 const defaultData = {
     ar: {
+        title: "HK", home: "الرئيسية", products: "أقسام العطور", contact: "اتصل بنا",
+        hero_title: "أرقى عطور العالمية",
+        hero_sub: "شركة HK تقدم لكم عطور و بخور بأعلى جودة في العراق.",
+        btn_browse: "تصفح الأقسام والمنتجات",
+        btn_order: "اطلب أو استفسر عبر الواتساب",
+        contact_title: "معلومات الاتصال والزيارة",
+        address_label: "موقع الشركة", phone_label: "رقم الهاتف الفعلي",
+        hours_label: "أوقات العمل", hours_val: "أهلاً وسهلاً بكم في جميع الأوقات",
+        footer_text: "شركة HK - الفخامة والتميز في عالم العطور",
+        all_categories: "كل الأقسام",
         sections: [
             {
                 id: "agency", title: "قسم العطور الخاصة بوكالتنا",
@@ -245,121 +257,158 @@ const defaultData = {
                 ]
             }
         ]
+    },
+    ku: {
+        title: "HK", home: "سەرەکی", products: "بەشەکانی عەتار", contact: "پەیوەندیمان پێوە بکە",
+        hero_title: "ناوازەترین عەتارەکانی جیهان",
+        hero_sub: "کۆمپانیای HK بەرزترین کوالیتی عەتار و بخوورتان پێشکەش دەکات لە عێراق.",
+        btn_browse: "گەڕان لە بەشەکان و بەرهەمەکان",
+        btn_order: "داواکردن یان پرسیارکردن لەڕێگەی واتسئەپەوە",
+        contact_title: "زانیاری پەیوەندی و سەردانکردن",
+        address_label: "شوێنی کۆمپانیا", phone_label: "ژمارەی تەلەفۆنی ڕاستەقینە",
+        hours_label: "کاتەکانی کارکردن", hours_val: "بەخێرهاتنتان دەکەین لە هەموو کاتێکدا",
+        footer_text: "کۆمپانیای HK - ڕازاوەیی و ناوازەیی لە جیهانی عەتاردا",
+        all_categories: "هەموو بەشەکان",
+        sections: [
+            {
+                id: "agency", title: "بەشی عەتارە تایبەتەکانی بریکاریەتەکەمان",
+                items: [
+                    { name: " عەبق", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: citrus - woody - sweet - spices - fruity - amber - aromatic | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water1.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل" },
+                    { name: " عەنوود", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: floral - aromatic - fresh - soft - fruity - woody - refreshing - citrus | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water2.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل" },
+                    { name: "بلو ئایریس", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: floral - fruity - patchouli - soft - fresh | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ٢٤ کاتژمێر", placeholder: "images/water3.jpg", note: "نرخ: ٤٥ د.ع بۆ شوشەی ٥٠ مل" },
+                    { name: "سوویت وۆرڵد", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: orange blossom - vanilla - sweet - almond - musk - aromatic - citrus - coffee | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ٢٤ کاتژمێر", placeholder: "images/water4.jpg", note: "نرخ: ٤٥ د.ع بۆ شوشەی ٥٠ مل" },
+                    { name: "جیفۆرا", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: citrus - woody - aromatic - sweet - floral - earthy - vanilla | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water5.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل" },
+                    { name: "هێڵتۆن عود", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: powder - vanilla - cool wood - amber - sandalwood | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water7.jpg", note: "نرخ: ٥٠ د.ع بۆ شوشەی ٥٠ مل" },
+                    { name: "یزار", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: fruity - floral - fresh - soft - pine - woody - refreshing - amber - trees | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water8.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل" }
+                ]
+            },
+            {
+                id: "french", title: "بەشی عەتارە فەرەنسییەکان",
+                items: [
+                    { name: "ئەنجێلز شیر", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: warm spicy - woody - sweet - vanilla - cinnamon - amber - soft | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water9.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water9.jpg","images/water10.jpg"] },
+                    { name: "تێری دی هێرمێس", features: "ڕەگەز: پیاوان | نۆتەکانی عەتار: citrus - woody - fresh spicy - aromatic - earthy - warm spicy | بڵاوبوونەوە: بەرز | مانەوە: کەمتری ١٢ کاتژمێر", placeholder: "images/water11.jpg", note: "نرخ: ٢٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water11.jpg","images/water12.jpg"] },
+                    { name: "سکاندڵ گۆڵد", features: "ڕەگەز: ئافرەتان | نۆتەکانی عەتار: warm spicy - woody - leather - earthy - honey - patchouli - animalic - floral - sweet - white flowers | بڵاوبوونەوە: بەرز | مانەوە: کەمتری ١٢ کاتژمێر", placeholder: "images/water13.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water13.jpg","images/water14.jpg"] },
+                    { name: "ئەلین مان", features: "ڕەگەز: پیاوان | نۆتەکانی عەتار: fresh spicy - woody - aromatic - amber - herbal - musky - anise - soft spices - leather - floral | بڵاوبوونەوە: بەرز | مانەوە: کەمتری ١٢ کاتژمێر", placeholder: "images/water15.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water15.jpg","images/water16.jpg"] },
+                    { name: "مای سێلف", features: "ڕەگەز: پیاوان | نۆتەکانی عەتار: citrus - white flowers - patchouli - fresh spicy - woody - sweet | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water25.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water25.jpg","images/water26.jpg"] },
+                    { name: "بەیبی کات", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: vanilla - fresh spicy - leather - warm spicy - amber - soft - musky - aromatic - balsamic - woody | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water27.jpg", note: "نرخ: ٤٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water27.jpg","images/water28.jpg"] },
+                    { name: "کویر ئینتێنس", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: leather - woody - tobacco - animalic - fruity - sweet - floral - smoky - soft | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water29.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water29.jpg","images/water30.jpg"] }
+                ]
+            },
+            {
+                id: "italian", title: "بەشی عەتارە ئیتاڵییەکان",
+                items: [
+                    { name: "ئیتالیکا", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: sweet - almond - vanilla - lactonic - woody - warm spicy - soft - walnut - fruity - caramel | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water17.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water17.jpg","images/water18.jpg"] },
+                    { name: "کۆد پەرفیوم", features: "ڕەگەز: پیاوان | نۆتەکانی عەتار: iris - aromatic - soft - woody - citrus - vanilla - earthy - aldehydes - violet - fresh spicy | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water21.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water21.jpg","images/water22.jpg"] },
+                    { name: "ئینتێنس عود", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: amber - oud - leather - fresh spicy - warm spicy - animalic - fruity - smoky - sweet - woody | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water33.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water33.jpg","images/water34.jpg"] },
+                    { name: "ئۆمۆ ئینتێنیس", features: "ڕەگەز: پیاوان | نۆتەکانی عەتار: vanilla - iris - soft - leather - violet - sweet - earthy - aromatic - animalic - amber | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water39.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water39.jpg","images/water40.jpg"] }
+                ]
+            },
+            {
+                id: "american", title: "بەشی عەتارە ئەمریکییەکان",
+                items: [
+                    { name: "عود وود", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: woody - warm spicy - oud - aromatic - vanilla - balsamic - fresh spicy - amber - soft - sweet | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water23.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water23.jpg","images/water24.jpg"] },
+                    { name: "ڤێری گود گێرڵ", features: "ڕەگەز: ئافرەتان | نۆتەکانی عەتار: fruity - rose - refreshing - vanilla - tropical - soft spices - sweet - sour | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water31.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water31.jpg","images/water32.jpg"] },
+                    { name: "هێر سیکرێت", features: "ڕەگەز: ئافرەتان | نۆتەکانی عەتار: woody - fruity - vanilla - sweet - white flowers - citrus - amber - soft - aromatic - roman musk | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water35.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water35.jpg","images/water36.jpg"] },
+                    { name: "سترۆنگ ویذ یو تۆباکۆ", features: "ڕەگەز: پیاوان | نۆتەکانی عەتار: warm spicy - amber - tobacco - vanilla - sweet - aromatic - soft spices - balsamic - fresh spicy - woody | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water35.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water35.jpg","images/water36.jpg"] }
+                ]
+            },
+            {
+                id: "qatari", title: "بەشی عەتارە قەتەرییەکان",
+                items: [
+                    { name: "دیماسکۆس", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: white flowers - rose - roman musk - soft - floral - vanilla - musky - fruity - sweet - animalic | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water19.jpg", note: "نرخ: ٤٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water19.jpg","images/water20.jpg"] }
+                ]
+            }
+        ]
+    },
+    en: {
+        title: "HK Perfumes", home: "Home", products: "Perfume Sections", contact: "Contact Us",
+        hero_title: "The Finest World Fragrances",
+        hero_sub: "HK Company offers you perfumes and incense with the highest quality in Iraq.",
+        btn_browse: "Browse Sections & Products",
+        btn_order: "Order or Inquire via WhatsApp",
+        contact_title: "Contact & Visit Information",
+        address_label: "Company Location", phone_label: "Phone Number",
+        hours_label: "Working Hours", hours_val: "Welcome at All Times",
+        footer_text: "HK Company - Luxury & Excellence in the World of Fragrances",
+        all_categories: "All Sections",
+        sections: [
+            {
+                id: "agency", title: "Agency Special Perfumes",
+                items: [
+                    { name: "baq", features: "Gender: Unisex | Notes: Citrus - Woody - Sweet - Spices - Fruity - Amber - Aromatic | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water1.jpg", note: "Price: 35 IQD / 50ml bottle" },
+                    { name: " Al Anoud", features: "Gender: Unisex | Notes: Floral - Aromatic - Fresh - Soft - Fruity - Woody - Refreshing - Citrus | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water2.jpg", note: "Price: 35 IQD / 50ml bottle" },
+                    { name: "Blue Iris", features: "Gender: Unisex | Notes: Floral - Fruity - Patchouli - Soft - Fresh | Projection: Very High | Longevity: At least 24 hours", placeholder: "images/water3.jpg", note: "Price: 45 IQD / 50ml bottle" },
+                    { name: "Sweet World", features: "Gender: Unisex | Notes: Orange Blossom - Vanilla - Sweet - Almond - Musk - Aromatic - Citrus - Coffee | Projection: Very High | Longevity: At least 24 hours", placeholder: "images/water4.jpg", note: "Price: 45 IQD / 50ml bottle" },
+                    { name: "Jivora", features: "Gender: Unisex | Notes: Citrus - Woody - Aromatic - Sweet - Floral - Earthy - Vanilla | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water5.jpg", note: "Price: 35 IQD / 50ml bottle" },
+                    { name: "Hilton Oud", features: "Gender: Unisex | Notes: Powdery - Vanilla - Cool Woods - Amber - Sandalwood | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water7.jpg", note: "Price: 50 IQD / 50ml bottle" },
+                    { name: "Yazar", features: "Gender: Unisex | Notes: Fruity - Floral - Fresh - Soft - Pine - Woody - Refreshing - Amber - Trees | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water8.jpg", note: "Price: 35 IQD / 50ml bottle" }
+                ]
+            },
+            {
+                id: "french", title: "French Perfumes",
+                items: [
+                    { name: "Angels' Share", features: "Gender: Unisex | Notes: Warm Spicy - Woody - Sweet - Vanilla - Cinnamon - Amber - Soft | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water9.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water9.jpg","images/water10.jpg"] },
+                    { name: "Terre d'Hermès", features: "Gender: Men | Notes: Citrus - Woody - Fresh Spicy - Aromatic - Earthy - Warm Spicy | Projection: High | Longevity: At least 12 hours", placeholder: "images/water11.jpg", note: "Price: 25 IQD / 50ml bottle", images: ["images/water11.jpg","images/water12.jpg"] },
+                    { name: "Scandal Gold", features: "Gender: Women | Notes: Warm Spicy - Woody - Leather - Earthy - Honey - Patchouli - Animalic - Floral - Sweet - White Flowers | Projection: High | Longevity: At least 12 hours", placeholder: "images/water13.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water13.jpg","images/water14.jpg"] },
+                    { name: "Alien Man", features: "Gender: Men | Notes: Fresh Spicy - Woody - Aromatic - Amber - Herbal - Musky - Anise - Soft Spices - Leather - Floral | Projection: High | Longevity: At least 12 hours", placeholder: "images/water15.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water15.jpg","images/water16.jpg"] },
+                    { name: "My Self", features: "Gender: Men | Notes: Citrus - White Flowers - Patchouli - Fresh Spicy - Woody - Sweet | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water25.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water25.jpg","images/water26.jpg"] },
+                    { name: "Baby Cat", features: "Gender: Unisex | Notes: Vanilla - Fresh Spicy - Leather - Warm Spicy - Amber - Soft - Musky - Aromatic - Balsamic - Woody | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water27.jpg", note: "Price: 45 IQD / 50ml bottle", images: ["images/water27.jpg","images/water28.jpg"] },
+                    { name: "Cuir Intense", features: "Gender: Unisex | Notes: Leather - Woody - Tobacco - Animalic - Fruity - Sweet - Floral - Smoky - Soft | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water29.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water29.jpg","images/water30.jpg"] }
+                ]
+            },
+            {
+                id: "italian", title: "Italian Perfumes",
+                items: [
+                    { name: "Italica", features: "Gender: Unisex | Notes: Sweet - Almond - Vanilla - Lactonic - Woody - Warm Spicy - Soft - Walnut - Fruity - Caramel | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water17.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water17.jpg","images/water18.jpg"] },
+                    { name: "Code Parfum", features: "Gender: Men | Notes: Iris - Aromatic - Soft - Woody - Citrus - Vanilla - Earthy - Aldehydes - Violet - Fresh Spicy | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water21.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water21.jpg","images/water22.jpg"] },
+                    { name: "Intense Oud", features: "Gender: Unisex | Notes: Amber - Oud - Leather - Fresh Spicy - Warm Spicy - Animalic - Fruity - Smoky - Sweet - Woody | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water33.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water33.jpg","images/water34.jpg"] },
+                    { name: "Uomo Intense", features: "Gender: Men | Notes: Vanilla - Iris - Soft - Leather - Violet - Sweet - Earthy - Aromatic - Animalic - Amber | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water39.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water39.jpg","images/water40.jpg"] }
+                ]
+            },
+            {
+                id: "american", title: "American Perfumes",
+                items: [
+                    { name: "Oud Wood", features: "Gender: Unisex | Notes: Woody - Warm Spicy - Oud - Aromatic - Vanilla - Balsamic - Fresh Spicy - Amber - Soft - Sweet | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water23.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water23.jpg","images/water24.jpg"] },
+                    { name: "Very Good Girl", features: "Gender: Women | Notes: Fruity - Rose - Refreshing - Vanilla - Tropical - Soft Spices - Sweet - Sour | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water31.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water31.jpg","images/water32.jpg"] },
+                    { name: "Her Secret", features: "Gender: Women | Notes: Woody - Fruity - Vanilla - Sweet - White Flowers - Citrus - Amber - Soft - Aromatic - Roman Musk | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water35.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water35.jpg","images/water36.jpg"] },
+                    { name: "Strong With You Tobacco", features: "Gender: Men | Notes: Warm Spicy - Amber - Tobacco - Vanilla - Sweet - Aromatic - Soft Spices - Balsamic - Fresh Spicy - Woody | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water35.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water35.jpg","images/water36.jpg"] }
+                ]
+            },
+            {
+                id: "qatari", title: "Qatari Perfumes",
+                items: [
+                    { name: "Damascus", features: "Gender: Unisex | Notes: White Flowers - Rose - Roman Musk - Soft - Floral - Vanilla - Musky - Fruity - Sweet - Animalic | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water19.jpg", note: "Price: 45 IQD / 50ml bottle", images: ["images/water19.jpg","images/water20.jpg"] }
+                ]
+            }
+        ]
     }
 };
 
-// ======================= متغيرات عامة =======================
-let allCategories = [];
-let allProducts = [];
+// ======================= منطق لوحة التحكم =======================
+const ADMIN_PASSWORD = "admin123";
+const STORAGE_KEY = "hk_perfume_data";
 
-// ======================= تحميل البيانات =======================
-async function loadData() {
-    const { data: categories } = await supabaseClient.from('categories').select('*');
-    allCategories = categories || [];
-    const { data: products } = await supabaseClient.from('products').select('*');
-    allProducts = products || [];
+let data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || JSON.parse(JSON.stringify(defaultData));
 
-    // إذا كانت قاعدة البيانات فارغة، اعرض البيانات الافتراضية
-    if (allCategories.length === 0) {
-        allCategories = defaultData.ar.sections.map(cat => ({
-            id: cat.id,
-            title_ar: cat.title,
-            title_ku: cat.title,
-            title_en: cat.title
-        }));
-    }
-    if (allProducts.length === 0) {
-        allProducts = [];
-        defaultData.ar.sections.forEach(cat => {
-            cat.items.forEach(item => {
-                allProducts.push({
-                    id: null,
-                    category_id: cat.id,
-                    name_ar: item.name,
-                    name_ku: item.name,
-                    name_en: item.name,
-                    features_ar: item.features,
-                    note_ar: item.note,
-                    placeholder: item.placeholder,
-                    images: item.images || []
-                });
-            });
-        });
-    }
-}
+['ar','ku','en'].forEach(lang => {
+    if (!data[lang]) data[lang] = JSON.parse(JSON.stringify(defaultData[lang]));
+    if (!data[lang].sections) data[lang].sections = [];
+});
 
-// ======================= عرض =======================
-function populateCategorySelect() {
-    const select = document.getElementById('productCategorySelect');
-    select.innerHTML = '<option value="">اختر القسم</option>';
-    allCategories.forEach(cat => {
-        const opt = document.createElement('option');
-        opt.value = cat.id;
-        opt.textContent = cat.title_ar;
-        select.appendChild(opt);
+// ========== تحويل ملف إلى Base64 ==========
+function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
     });
 }
 
-function renderSections() {
-    const container = document.getElementById('sectionsContainer');
-    container.innerHTML = '';
-    allCategories.forEach(cat => {
-        const secDiv = document.createElement('div');
-        secDiv.className = 'section-box';
-        secDiv.innerHTML = `
-            <div class="section-header">
-                <h3>${cat.title_ar} (${cat.id})</h3>
-                <div>
-                    <button class="danger" onclick="deleteCategory('${cat.id}')"><i class="fa-solid fa-trash"></i> حذف القسم</button>
-                </div>
-            </div>
-            <div id="products-${cat.id}"></div>
-        `;
-        container.appendChild(secDiv);
-        renderProducts(cat.id);
-    });
-}
-
-function renderProducts(categoryId) {
-    const container = document.getElementById(`products-${categoryId}`);
-    if (!container) return;
-    const catProducts = allProducts.filter(p => p.category_id === categoryId);
-    container.innerHTML = catProducts.map(p => `
-        <div class="product-item">
-            <div>
-                <span class="product-name">${p.name_ar}</span>
-                <span class="product-note">${p.note_ar || ''}</span>
-            </div>
-            <button class="danger" onclick="deleteProduct(${p.id})"><i class="fa-solid fa-trash"></i></button>
-        </div>
-    `).join('');
-}
-
-// ======================= إضافة قسم =======================
-async function addSection() {
-    const id = document.getElementById('newSectionId').value.trim();
-    const titleAr = document.getElementById('newSectionTitle_ar').value.trim();
-    if (!id || !titleAr) return alert('أدخل معرف القسم واسمه بالعربية');
-    const titleKu = document.getElementById('newSectionTitle_ku').value.trim() || titleAr;
-    const titleEn = document.getElementById('newSectionTitle_en').value.trim() || titleAr;
-
-    const { error } = await supabaseClient.from('categories').insert({
-        id, title_ar: titleAr, title_ku: titleKu, title_en: titleEn
-    });
-    if (error) return alert('خطأ: ' + error.message);
-
-    document.getElementById('newSectionId').value = '';
-    document.getElementById('newSectionTitle_ar').value = '';
-    document.getElementById('newSectionTitle_ku').value = '';
-    document.getElementById('newSectionTitle_en').value = '';
-    await refreshAll();
-    showMessage('تم إضافة القسم');
-}
-
-// ======================= إضافة منتج =======================
+// ========== إضافة منتج جديد مع رفع الصور ==========
 async function addNewProduct() {
-    const categoryId = document.getElementById('productCategorySelect').value;
-    if (!categoryId) return alert('اختر القسم أولاً');
+    const sectionIndex = document.getElementById('productCategorySelect').value;
+    if (sectionIndex === '') return alert('اختر القسم أولاً');
 
     const nameAr = document.getElementById('productName_ar').value.trim();
     if (!nameAr) return alert('أدخل اسم المنتج بالعربية');
@@ -374,85 +423,49 @@ async function addNewProduct() {
     const noteKu = document.getElementById('productNote_ku').value.trim() || noteAr;
     const noteEn = document.getElementById('productNote_en').value.trim() || noteAr;
 
-    const mainFile = document.getElementById('mainImageFile').files[0];
-    let placeholder = '';
-    if (mainFile) {
-        const mainFileName = `${Date.now()}_${mainFile.name}`;
-        const { error: mainError } = await supabaseClient.storage.from('product-images').upload(mainFileName, mainFile);
-        if (mainError) return alert('فشل رفع الصورة: ' + mainError.message);
-        placeholder = supabaseClient.storage.from('product-images').getPublicUrl(mainFileName).data.publicUrl;
-    } else {
-        placeholder = 'images/water1.jpg'; // صورة افتراضية
-    }
+    const mainImgFile = document.getElementById('mainImageFile').files[0];
+    if (!mainImgFile) return alert('اختر صورة رئيسية للمنتج');
+    const placeholder = await fileToBase64(mainImgFile);
 
-    let images = [];
     const extraFiles = document.getElementById('extraImagesFiles').files;
+    let images = [];
     for (let i = 0; i < extraFiles.length; i++) {
-        const file = extraFiles[i];
-        const fileName = `${Date.now()}_${i}_${file.name}`;
-        const { error } = await supabaseClient.storage.from('product-images').upload(fileName, file);
-        if (!error) {
-            const url = supabaseClient.storage.from('product-images').getPublicUrl(fileName).data.publicUrl;
-            images.push(url);
-        }
+        const base64 = await fileToBase64(extraFiles[i]);
+        images.push(base64);
     }
 
-    const newProduct = {
-        category_id: categoryId,
-        name_ar: nameAr, name_ku: nameKu, name_en: nameEn,
-        features_ar: featAr, features_ku: featKu, features_en: featEn,
-        note_ar: noteAr, note_ku: noteKu, note_en: noteEn,
-        placeholder: placeholder,
-        images: images
-    };
+    const newItemAr = { name: nameAr, features: featAr, note: noteAr, placeholder: placeholder };
+    const newItemKu = { name: nameKu, features: featKu, note: noteKu, placeholder: placeholder };
+    const newItemEn = { name: nameEn, features: featEn, note: noteEn, placeholder: placeholder };
 
-    const { error } = await supabaseClient.from('products').insert(newProduct);
-    if (error) return alert('خطأ في الإضافة: ' + error.message);
+    if (images.length > 0) {
+        newItemAr.images = images;
+        newItemKu.images = images;
+        newItemEn.images = images;
+    }
 
+    data.ar.sections[sectionIndex].items.push(newItemAr);
+    data.ku.sections[sectionIndex].items.push(newItemKu);
+    data.en.sections[sectionIndex].items.push(newItemEn);
+
+    // مسح الحقول
     document.querySelectorAll('#dashboard input[type=text], #dashboard textarea').forEach(el => el.value = '');
     document.getElementById('mainImageFile').value = '';
     document.getElementById('mainImagePreview').classList.add('hidden');
     document.getElementById('extraImagesFiles').value = '';
     document.getElementById('extraImagesPreview').innerHTML = '';
 
-    await refreshAll();
-    showMessage('تم إضافة المنتج');
+    renderAll();
+    showMessage('تمت إضافة المنتج (لم تحفظ بعد)', 'success');
 }
 
-// ======================= حذف =======================
-async function deleteProduct(productId) {
-    if (!productId) {
-        // منتج محلي (غير موجود في Supabase)
-        showMessage('هذا المنتج محلي ولا يمكن حذفه من Supabase');
-        return;
-    }
-    if (!confirm('حذف هذا المنتج؟')) return;
-    const { error } = await supabaseClient.from('products').delete().eq('id', productId);
-    if (error) alert('خطأ: ' + error.message);
-    else { await refreshAll(); showMessage('تم الحذف'); }
-}
-
-async function deleteCategory(categoryId) {
-    if (!confirm('حذف القسم وجميع منتجاته؟')) return;
-    await supabaseClient.from('products').delete().eq('category_id', categoryId);
-    const { error } = await supabaseClient.from('categories').delete().eq('id', categoryId);
-    if (error) alert('خطأ: ' + error.message);
-    else { await refreshAll(); showMessage('تم حذف القسم'); }
-}
-
-// ======================= تحديث =======================
-async function refreshAll() {
-    await loadData();
-    populateCategorySelect();
-    renderSections();
-}
-
-// ======================= تسجيل الدخول =======================
-async function login() {
+// ========== دوال العرض والحذف والحفظ ==========
+function login() {
     if (document.getElementById('passwordInput').value === ADMIN_PASSWORD) {
         document.getElementById('loginScreen').classList.add('hidden');
         document.getElementById('dashboard').classList.remove('hidden');
-        await refreshAll();
+        populateCategorySelect();
+        renderAll();
     } else {
         document.getElementById('loginError').textContent = 'كلمة المرور غير صحيحة';
     }
@@ -463,50 +476,152 @@ function logout() {
     document.getElementById('loginScreen').classList.remove('hidden');
 }
 
-function showMessage(msg) {
+function saveAll() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    showMessage('تم حفظ البيانات بنجاح', 'success');
+}
+
+function showMessage(msg, type) {
     const box = document.getElementById('messageBox');
     box.textContent = msg;
-    box.className = 'msg success';
+    box.className = 'msg ' + (type || 'success');
     setTimeout(() => { box.textContent = ''; box.className = 'msg'; }, 4000);
 }
 
-// معاينة الصور
+function populateCategorySelect() {
+    const select = document.getElementById('productCategorySelect');
+    select.innerHTML = '<option value="">اختر القسم</option>';
+    data.ar.sections.forEach((sec, idx) => {
+        const opt = document.createElement('option');
+        opt.value = idx;
+        opt.textContent = sec.title;
+        select.appendChild(opt);
+    });
+}
+
+function renderAll() {
+    const container = document.getElementById('sectionsContainer');
+    container.innerHTML = '';
+    data.ar.sections.forEach((sec, idx) => {
+        const secDiv = document.createElement('div');
+        secDiv.className = 'section-box';
+        secDiv.innerHTML = `
+            <div class="section-header">
+                <h3>${sec.title} <small style="color:#aaa; font-size:13px;">(${sec.id})</small></h3>
+                <div>
+                    <button onclick="showAddProduct(${idx})"><i class="fa-solid fa-plus"></i> منتج جديد</button>
+                    <button class="danger" onclick="deleteSection(${idx})"><i class="fa-solid fa-trash"></i> حذف القسم</button>
+                </div>
+            </div>
+            <div id="products-${idx}"></div>
+        `;
+        container.appendChild(secDiv);
+        renderProducts(idx);
+    });
+}
+
+function renderProducts(secIdx) {
+    const section = data.ar.sections[secIdx];
+    const container = document.getElementById(`products-${secIdx}`);
+    container.innerHTML = '';
+    section.items.forEach((item, itemIdx) => {
+        const div = document.createElement('div');
+        div.className = 'product-item';
+        div.innerHTML = `
+            <div>
+                <span class="product-name">${item.name}</span>
+                <span class="product-note">${item.note || ''}</span>
+            </div>
+            <button class="danger" onclick="deleteProduct(${secIdx}, ${itemIdx})"><i class="fa-solid fa-trash"></i></button>
+        `;
+        container.appendChild(div);
+    });
+}
+
+function showAddProduct(secIdx) {
+    // يمكنك توجيه المستخدم لنموذج الإضافة الجديد أو استخدام prompt (لكن يفضل النموذج الجديد)
+    document.getElementById('productCategorySelect').value = secIdx;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function deleteProduct(secIdx, itemIdx) {
+    if (confirm('حذف هذا المنتج؟')) {
+        data.ar.sections[secIdx].items.splice(itemIdx, 1);
+        data.ku.sections[secIdx].items.splice(itemIdx, 1);
+        data.en.sections[secIdx].items.splice(itemIdx, 1);
+        renderAll();
+        showMessage('تم الحذف (احفظ التغييرات)', 'success');
+    }
+}
+
+function addSection() {
+    const id = document.getElementById('newSectionId').value.trim();
+    if (!id) return alert('أدخل معرف القسم');
+    const titleAr = document.getElementById('newSectionTitle_ar').value.trim();
+    const titleKu = document.getElementById('newSectionTitle_ku').value.trim() || titleAr;
+    const titleEn = document.getElementById('newSectionTitle_en').value.trim() || titleAr;
+
+    data.ar.sections.push({ id, title: titleAr, items: [] });
+    data.ku.sections.push({ id, title: titleKu, items: [] });
+    data.en.sections.push({ id, title: titleEn, items: [] });
+
+    ['newSectionId','newSectionTitle_ar','newSectionTitle_ku','newSectionTitle_en'].forEach(id => document.getElementById(id).value = '');
+    renderAll();
+    showMessage('تم إضافة القسم (احفظ التغييرات)', 'success');
+}
+
+function deleteSection(secIdx) {
+    if (confirm('حذف القسم وجميع منتجاته؟')) {
+        data.ar.sections.splice(secIdx, 1);
+        data.ku.sections.splice(secIdx, 1);
+        data.en.sections.splice(secIdx, 1);
+        renderAll();
+        showMessage('تم حذف القسم (احفظ)', 'success');
+    }
+}
+
+// معاينة الصورة الرئيسية عند الاختيار
 document.getElementById('mainImageFile').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
-        const reader = new FileReader();
-        reader.onload = ev => {
-            document.getElementById('mainImagePreview').src = ev.target.result;
+        fileToBase64(file).then(base64 => {
+            document.getElementById('mainImagePreview').src = base64;
             document.getElementById('mainImagePreview').classList.remove('hidden');
-        };
-        reader.readAsDataURL(file);
+        });
     }
 });
 
+// معاينة الصور الإضافية
 document.getElementById('extraImagesFiles').addEventListener('change', function(e) {
     const container = document.getElementById('extraImagesPreview');
     container.innerHTML = '';
     Array.from(e.target.files).forEach(file => {
-        const reader = new FileReader();
-        reader.onload = ev => {
+        fileToBase64(file).then(base64 => {
             const img = document.createElement('img');
-            img.src = ev.target.result;
+            img.src = base64;
             img.className = 'preview-img';
-            img.style.width = '80px'; img.style.height = '80px';
+            img.style.width = '80px';
+            img.style.height = '80px';
             container.appendChild(img);
-        };
-        reader.readAsDataURL(file);
+        });
     });
 });
 
-// تبديل التبويبات
+// تبديل تبويبات اللغة
 document.addEventListener('click', function(e) {
-    if (e.target.matches('#sectionLangTabs button, #productLangTabs button')) {
-        const parent = e.target.parentElement;
+    if (e.target.matches('#sectionLangTabs button')) {
         const lang = e.target.dataset.lang;
-        parent.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('#sectionLangTabs button').forEach(b => b.classList.remove('active'));
         e.target.classList.add('active');
         document.querySelectorAll('.lang-hide').forEach(f => {
+            f.style.display = f.dataset.lang === lang ? 'block' : 'none';
+        });
+    }
+    if (e.target.matches('#productLangTabs button')) {
+        const lang = e.target.dataset.lang;
+        document.querySelectorAll('#productLangTabs button').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        document.querySelectorAll('#dashboard .lang-hide').forEach(f => {
             f.style.display = f.dataset.lang === lang ? 'block' : 'none';
         });
     }
