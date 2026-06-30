@@ -13,8 +13,8 @@ let multilingualData = {
         home: "الرئيسية",
         products: "أقسام العطور",
         contact: "اتصل بنا",
-        hero_title: "أرقى عطور العالمية",
-        hero_sub: "شركة HK تقدم لكم عطور و بخور بأعلى جودة في العراق.",
+        hero_title: "أرقى العطور العالمية",
+        hero_sub: "وكالة HK تقدم لكم عطور و بخور بأعلى جودة في العراق.",
         btn_browse: "تصفح الأقسام والمنتجات",
         btn_order: "اطلب أو استفسر عبر الواتساب",
         contact_title: "معلومات الاتصال والزيارة",
@@ -29,53 +29,184 @@ let multilingualData = {
                 id: "agency",
                 title: "قسم العطور الخاصة بوكالتنا",
                 items: [
-                    { name: "عطر عبق", features: "الجنس : يونيسكس | النوتات العطرية :- حمضيات - خشبي - سويت - توابل -فاكهي - عنبر -  اروماتك  | الفوحان عالي جداً |الثبات اقل مدة لثاني يوم", placeholder: "images/water1.jpg", note: "سعر 35 د.ع للزجاجة 50 مل" },
-                    { name: "عطر العنود", features: "الجنس : يونيسكس | النوتات العطرية :- زهري - اروماتك - فريش - ناعم - فاكهي - خشبي - منعش - حمضيات | الفوحان  عالي جداً | الثبات اقل مده الثاني يوم", placeholder: "images/water2.jpg", note: "سعر 35 د.ع للزجاجة 50 مل" },
-                    { name: "بلو آيريس", features: "الجنس : يونيسكس | النوتات العطرية :- زهري - فاكهي - باتشولي - ناعم - فريش | الفوحان  عالي جداً | الثبات اقل مده 24 ساعة", placeholder: "images/water3.jpg", note: "سعر 45 د.ع للزجاجة 50 مل" },
-                    { name: "سويت وورلد", features: "الجنس : يونيسكس | النوتات العطرية :- زهر البرتقال - فانيلا - حلوي - لوز - مسك - اروماتك - حمضيات - قهوة | الفوحان  عالي جداً | الثبات اقل مده 24 ساعة", placeholder: "images/water4.jpg", note: "سعر 45 د.ع للزجاجة 50 مل" },
-                    { name: "جيفورا", features: "الجنس : يونيسكس | النوتات العطرية :- حمضيات - خشبي - اروماتك - حلو - زهري - ترابي - فانيلا| الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water5.jpg", note: "سعر 35 د.ع للزجاجة 50 مل" },
-                    { name: "هيلتون عود", features: " الجنس : يونيسكس | النوتات العطرية :- باودر - فانيلا - خشب بارد - عنبر - صندل  | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water7.jpg", note: "سعر 50 د.ع للزجاجة 50 مل" },
-                    { name: "يزار", features: "الجنس : يونيسكس | النوتات العطرية :- فاكهي - زهري - فريش - ناعم - صنوبر - خشبي - منعش - عنبر - اشجار   | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water8.jpg", note: "سعر 35 د.ع للزجاجة 50 مل" }
+                    {
+                        name: " عبق",
+                        features: "الجنس : يونيسكس | النوتات العطرية :- حمضيات - خشبي - سويت - توابل -فاكهي - عنبر -  اروماتك  | الفوحان عالي جداً |الثبات اقل مدة لثاني يوم",
+                        placeholder: "images/water1.jpg",
+                        note: "سعر 35 د.ع للزجاجة 50 مل"
+                    },
+                    {
+                        name: "العنود",
+                        features: "الجنس : يونيسكس | النوتات العطرية :- زهري - اروماتك - فريش - ناعم - فاكهي - خشبي - منعش - حمضيات | الفوحان  عالي جداً | الثبات اقل مده الثاني يوم",
+                        placeholder: "images/water2.jpg",
+                        note: "سعر 35 د.ع للزجاجة 50 مل"
+                    },
+                    {
+                        name: "بلو آيريس",
+                        features: "الجنس : يونيسكس | النوتات العطرية :- زهري - فاكهي - باتشولي - ناعم - فريش | الفوحان  عالي جداً | الثبات اقل مده 24 ساعة",
+                        placeholder: "images/water3.jpg",
+                        note: "سعر 45 د.ع للزجاجة 50 مل"
+                    },
+                    {
+                        name: "سويت وورلد",
+                        features: "الجنس : يونيسكس | النوتات العطرية :- زهر البرتقال - فانيلا - حلوي - لوز - مسك - اروماتك - حمضيات - قهوة | الفوحان  عالي جداً | الثبات اقل مده 24 ساعة",
+                        placeholder: "images/water4.jpg",
+                        note: "سعر 45 د.ع للزجاجة 50 مل"
+                    },
+                    {
+                        name: "جيفورا",
+                        features: "الجنس : يونيسكس | النوتات العطرية :- حمضيات - خشبي - اروماتك - حلو - زهري - ترابي - فانيلا| الفوحان  عالي جداً | الثبات اقل مده ثاني يوم",
+                        placeholder: "images/water5.jpg",
+                        note: "سعر 35 د.ع للزجاجة 50 مل"
+                    },
+                    {
+                        name: "هيلتون عود",
+                        features: " الجنس : يونيسكس | النوتات العطرية :- باودر - فانيلا - خشب بارد - عنبر - صندل  | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم",
+                        placeholder: "images/water7.jpg",
+                        note: "سعر 50 د.ع للزجاجة 50 مل"
+                    },
+                    {
+                        name: "يزار",
+                        features: "الجنس : يونيسكس | النوتات العطرية :- فاكهي - زهري - فريش - ناعم - صنوبر - خشبي - منعش - عنبر - اشجار   | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم",
+                        placeholder: "images/water8.jpg",
+                        note: "سعر 35 د.ع للزجاجة 50 مل"
+                    }
                 ]
             },
             {
                 id: "french",
                 title: "قسم العطور الفرنسية",
                 items: [
-                    { name: "انجيلز شير", features: "الجنس : يونيسكس | النوتات العطرية :- تابلي دافئ - خشبي - حلو - فانيلا - قرفة - عنبر - ناعم   | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water9.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water9.jpg","images/water10.jpg"] },
-                    { name: "تيري دي هيرميس", features: "الجنس : للرجال | النوتات العطرية :- حمضيات - خشبي - تابلي منعش - اروماتك - ترابي - تابلي دافئ    | الفوحان  عالي  | الثبات اقل مده 12 ساعة", placeholder: "images/water11.jpg", note: "سعر 25 د.ع للزجاجة 50 مل", images: ["images/water11.jpg","images/water12.jpg"] },
-                    { name: "سكاندل گولد", features: "الجنس : للنساء | النوتات العطرية :- تابلي دافئ - خشبي - جلود - ترابي - عسل - باتشولي - حيواني - زهري - حلو - الزهور البيضاء    | الفوحان  عالي  | الثبات اقل مده 12 ساعة", placeholder: "images/water13.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water13.jpg","images/water14.jpg"] },
-                    { name: "الين مان", features: "الجنس : للرجال | النوتات العطرية :- تابلي منعش - خشبي - اروماتك - العنبر - عشبي - مسكي - الينسون - توابل ناعم - جلود - زهري    | الفوحان  عالي  | الثبات اقل مده 12 ساعة", placeholder: "images/water15.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water15.jpg","images/water16.jpg"] },
-                    { name: "ماي سيلف", features: "الجنس : للرجال | النوتات العطرية :- حمضيات - الزهور البيضاء - الباتشولي - تابلي منعش - خشبي - حلو      | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water25.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water25.jpg","images/water26.jpg"] },
-                    { name: "بيبي كات", features: "الجنس : يونيسكس | النوتات العطرية :- فانيلا - تابلي منعش - جلود - تابلي دافئ - عنبر - ناعم - مسكي - اروماتك - بلسمي - خشبي    | الفوحان  عالي جداً | الثبات اقل مده الثاني يوم", placeholder: "images/water27.jpg", note: "سعر 45 د.ع للزجاجة 50 مل", images: ["images/water27.jpg","images/water28.jpg"] },
-                    { name: "كوير انتينس", features: "الجنس : يونيسكس | النوتات العطرية :- الجلود - خشبي - التبغ - حيواني - فاكهي - حلو - زهري - مدخن - ناعم    | الفوحان  عالي جداً | الثبات اقل مده الثاني يوم", placeholder: "images/water29.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water29.jpg","images/water30.jpg"] }
+                    {
+                        name: "انجيلز شير",
+                        features: "الجنس : يونيسكس | النوتات العطرية :- تابلي دافئ - خشبي - حلو - فانيلا - قرفة - عنبر - ناعم   | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم",
+                        placeholder: "images/water9.jpg",
+                        note: "سعر 35 د.ع للزجاجة 50 مل",
+                        images: ["images/water9.jpg", "images/water10.jpg"]
+                    },
+                    {
+                        name: "تيري دي هيرميس",
+                        features: "الجنس : للرجال | النوتات العطرية :- حمضيات - خشبي - تابلي منعش - اروماتك - ترابي - تابلي دافئ    | الفوحان  عالي  | الثبات اقل مده 12 ساعة",
+                        placeholder: "images/water11.jpg",
+                        note: "سعر 25 د.ع للزجاجة 50 مل",
+                        images: ["images/water11.jpg", "images/water12.jpg"]
+                    },
+                    {
+                        name: "سكاندل گولد",
+                        features: "الجنس : للنساء | النوتات العطرية :- تابلي دافئ - خشبي - جلود - ترابي - عسل - باتشولي - حيواني - زهري - حلو - الزهور البيضاء    | الفوحان  عالي  | الثبات اقل مده 12 ساعة",
+                        placeholder: "images/water13.jpg",
+                        note: "سعر 35 د.ع للزجاجة 50 مل",
+                        images: ["images/water13.jpg", "images/water14.jpg"]
+                    },
+                    {
+                        name: "الين مان",
+                        features: "الجنس : للرجال | النوتات العطرية :- تابلي منعش - خشبي - اروماتك - العنبر - عشبي - مسكي - الينسون - توابل ناعم - جلود - زهري    | الفوحان  عالي  | الثبات اقل مده 12 ساعة",
+                        placeholder: "images/water15.jpg",
+                        note: "سعر 35 د.ع للزجاجة 50 مل",
+                        images: ["images/water15.jpg", "images/water16.jpg"]
+                    },
+                    {
+                        name: "ماي سيلف",
+                        features: "الجنس : للرجال | النوتات العطرية :- حمضيات - الزهور البيضاء - الباتشولي - تابلي منعش - خشبي - حلو      | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم",
+                        placeholder: "images/water25.jpg",
+                        note: "سعر 35 د.ع للزجاجة 50 مل",
+                        images: ["images/water25.jpg", "images/water26.jpg"]
+                    },
+                    {
+                        name: "بيبي كات",
+                        features: "الجنس : يونيسكس | النوتات العطرية :- فانيلا - تابلي منعش - جلود - تابلي دافئ - عنبر - ناعم - مسكي - اروماتك - بلسمي - خشبي    | الفوحان  عالي جداً | الثبات اقل مده الثاني يوم",
+                        placeholder: "images/water27.jpg",
+                        note: "سعر 45 د.ع للزجاجة 50 مل",
+                        images: ["images/water27.jpg", "images/water28.jpg"]
+                    },
+                    {
+                        name: "كوير انتينس",
+                        features: "الجنس : يونيسكس | النوتات العطرية :- الجلود - خشبي - التبغ - حيواني - فاكهي - حلو - زهري - مدخن - ناعم    | الفوحان  عالي جداً | الثبات اقل مده الثاني يوم",
+                        placeholder: "images/water29.jpg",
+                        note: "سعر 35 د.ع للزجاجة 50 مل",
+                        images: ["images/water29.jpg", "images/water30.jpg"]
+                    }
                 ]
             },
             {
                 id: "italian",
                 title: "قسم العطور الايطالية",
                 items: [
-                    { name: "ايتاليكا", features: "الجنس : يونيسكس | النوتات العطرية :- حلو - اللوز - الفانيلا - لاكتوني - خشبي - تابلي دافئ - ناعم - الجوز - فاكهي - الكراميل    | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water17.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water17.jpg","images/water18.jpg"] },
-                    { name: "كود بارفيوم", features: "الجنس : للرجال | النوتات العطرية :- السوسن - اروماتك - ناعم - خشبي - حمضيات - فانيلا - ترابي - الدهيد - البنفسج - تابلي منعش     | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water21.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water21.jpg","images/water22.jpg"] },
-                    { name: "انتينس عود", features: "الجنس : يونيسكس | النوتات العطرية :-  عنبر - عود - جلود - تابلي منعش - تابلي دافئ - حيواني - فاكهي - مدخن - حلو - خشبي     | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water33.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water33.jpg","images/water34.jpg"] },
-                    { name: "اومو انتينيس", features: "الجنس : للرجال | النوتات العطرية :-  فانيلا - سوسن - ناعم - جلود - بنفسج - حلو - ترابي - اروماتك - حيواني - عنبر       | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water39.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water39.jpg","images/water40.jpg"] }
+                    {
+                        name: "ايتاليكا",
+                        features: "الجنس : يونيسكس | النوتات العطرية :- حلو - اللوز - الفانيلا - لاكتوني - خشبي - تابلي دافئ - ناعم - الجوز - فاكهي - الكراميل    | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم",
+                        placeholder: "images/water17.jpg",
+                        note: "سعر 35 د.ع للزجاجة 50 مل",
+                        images: ["images/water17.jpg", "images/water18.jpg"]
+                    },
+                    {
+                        name: "كود بارفيوم",
+                        features: "الجنس : للرجال | النوتات العطرية :- السوسن - اروماتك - ناعم - خشبي - حمضيات - فانيلا - ترابي - الدهيد - البنفسج - تابلي منعش     | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم",
+                        placeholder: "images/water21.jpg",
+                        note: "سعر 35 د.ع للزجاجة 50 مل",
+                        images: ["images/water21.jpg", "images/water22.jpg"]
+                    },
+                    {
+                        name: "انتينس عود",
+                        features: "الجنس : يونيسكس | النوتات العطرية :-  عنبر - عود - جلود - تابلي منعش - تابلي دافئ - حيواني - فاكهي - مدخن - حلو - خشبي     | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم",
+                        placeholder: "images/water33.jpg",
+                        note: "سعر 35 د.ع للزجاجة 50 مل",
+                        images: ["images/water33.jpg", "images/water34.jpg"]
+                    },
+                    {
+                        name: "اومو انتينيس",
+                        features: "الجنس : للرجال | النوتات العطرية :-  فانيلا - سوسن - ناعم - جلود - بنفسج - حلو - ترابي - اروماتك - حيواني - عنبر       | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم",
+                        placeholder: "images/water39.jpg",
+                        note: "سعر 35 د.ع للزجاجة 50 مل",
+                        images: ["images/water39.jpg", "images/water40.jpg"]
+                    }
                 ]
             },
             {
                 id: "american",
                 title: "قسم العطور الامريكية",
                 items: [
-                    { name: "عود وود", features: "الجنس : يونيسكس | النوتات العطرية :- خشبي - تابلي دافئ - العود - اروماتك - الفانيلا - بلسمي - تابلي منعش - العنبر - ناعم - حلو     | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water23.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water23.jpg","images/water24.jpg"] },
-                    { name: "فيري گود گيرل", features: "الجنس : للنساء | النوتات العطرية :- فاكهي - ورد - منعش - فانيلا - استوائي - توابل ناعم - حلو - حامض     | الفوحان  عالي جداً | الثبات اقل مده الثاني يوم", placeholder: "images/water31.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water31.jpg","images/water32.jpg"] },
-                    { name: "هير سكرت", features: "الجنس : للنساء | النوتات العطرية :-خشبي - فاكهي - فانيلا - حلو - الزهور البيضاء - حمضيات - عنبر - ناعم - اروماتك - مسك الروم      | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water35.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water35.jpg","images/water36.jpg"] },
-                    { name: "سترونك ويذ يو توباكو", features: "الجنس : للرجال | النوتات العطرية :- تابلي دافئ - عنبر - تبغ - فانيلا - حلو - اروماتك - توابل ناعم - بلسمي - تابلي منعش - خشبي      | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water35.jpg", note: "سعر 35 د.ع للزجاجة 50 مل", images: ["images/water35.jpg","images/water36.jpg"] }
+                    {
+                        name: "عود وود",
+                        features: "الجنس : يونيسكس | النوتات العطرية :- خشبي - تابلي دافئ - العود - اروماتك - الفانيلا - بلسمي - تابلي منعش - العنبر - ناعم - حلو     | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم",
+                        placeholder: "images/water23.jpg",
+                        note: "سعر 35 د.ع للزجاجة 50 مل",
+                        images: ["images/water23.jpg", "images/water24.jpg"]
+                    },
+                    {
+                        name: "فيري گود گيرل",
+                        features: "الجنس : للنساء | النوتات العطرية :- فاكهي - ورد - منعش - فانيلا - استوائي - توابل ناعم - حلو - حامض     | الفوحان  عالي جداً | الثبات اقل مده الثاني يوم",
+                        placeholder: "images/water31.jpg",
+                        note: "سعر 35 د.ع للزجاجة 50 مل",
+                        images: ["images/water31.jpg", "images/water32.jpg"]
+                    },
+                    {
+                        name: "هير سكرت",
+                        features: "الجنس : للنساء | النوتات العطرية :-خشبي - فاكهي - فانيلا - حلو - الزهور البيضاء - حمضيات - عنبر - ناعم - اروماتك - مسك الروم      | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم",
+                        placeholder: "images/water35.jpg",
+                        note: "سعر 35 د.ع للزجاجة 50 مل",
+                        images: ["images/water35.jpg", "images/water36.jpg"]
+                    },
+                    {
+                        name: "سترونك ويذ يو توباكو",
+                        features: "الجنس : للرجال | النوتات العطرية :- تابلي دافئ - عنبر - تبغ - فانيلا - حلو - اروماتك - توابل ناعم - بلسمي - تابلي منعش - خشبي      | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم",
+                        placeholder: "images/water35.jpg",
+                        note: "سعر 35 د.ع للزجاجة 50 مل",
+                        images: ["images/water35.jpg", "images/water36.jpg"]
+                    }
                 ]
             },
             {
                 id: "qatari",
                 title: "قسم العطور القطرية",
                 items: [
-                    { name: "ديماسكوس", features: "الجنس : يونيسكس | النوتات العطرية :- الزهور البيضاء - ورد - مسك الروم - ناعم - زهري - الفانيلا - مسكي - فاكهي - حلو - حيواني     | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم", placeholder: "images/water19.jpg", note: "سعر 45 د.ع للزجاجة 50 مل", images: ["images/water19.jpg","images/water20.jpg"] }
+                    {
+                        name: "ديماسكوس",
+                        features: "الجنس : يونيسكس | النوتات العطرية :- الزهور البيضاء - ورد - مسك الروم - ناعم - زهري - الفانيلا - مسكي - فاكهي - حلو - حيواني     | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم",
+                        placeholder: "images/water19.jpg",
+                        note: "سعر 45 د.ع للزجاجة 50 مل",
+                        images: ["images/water19.jpg", "images/water20.jpg"]
+                    }
                 ]
             }
         ]
@@ -101,53 +232,184 @@ let multilingualData = {
                 id: "agency",
                 title: "بەشی عەتارە تایبەتەکانی بریکاریەتەکەمان",
                 items: [
-                    { name: "عطر عبق", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: citrus - woody - sweet - spices - fruity - amber - aromatic | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water1.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل" },
-                    { name: "عطر العنود", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: floral - aromatic - fresh - soft - fruity - woody - refreshing - citrus | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water2.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل" },
-                    { name: "بلو آيريس", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: floral - fruity - patchouli - soft - fresh | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ٢٤ کاتژمێر", placeholder: "images/water3.jpg", note: "نرخ: ٤٥ د.ع بۆ شوشەی ٥٠ مل" },
-                    { name: "سويت وورلد", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: orange blossom - vanilla - sweet - almond - musk - aromatic - citrus - coffee | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ٢٤ کاتژمێر", placeholder: "images/water4.jpg", note: "نرخ: ٤٥ د.ع بۆ شوشەی ٥٠ مل" },
-                    { name: "جيفورا", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: citrus - woody - aromatic - sweet - floral - earthy - vanilla | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water5.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل" },
-                    { name: "هيلتون عود", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: powder - vanilla - cool wood - amber - sandalwood | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water7.jpg", note: "نرخ: ٥٠ د.ع بۆ شوشەی ٥٠ مل" },
-                    { name: "يزار", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: fruity - floral - fresh - soft - pine - woody - refreshing - amber - trees | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water8.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل" }
+                    {
+                        name: " عەبق",
+                        features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: citrus - woody - sweet - spices - fruity - amber - aromatic | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر",
+                        placeholder: "images/water1.jpg",
+                        note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل"
+                    },
+                    {
+                        name: " عەنوود",
+                        features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: floral - aromatic - fresh - soft - fruity - woody - refreshing - citrus | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر",
+                        placeholder: "images/water2.jpg",
+                        note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل"
+                    },
+                    {
+                        name: "بلو ئایریس",
+                        features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: floral - fruity - patchouli - soft - fresh | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ٢٤ کاتژمێر",
+                        placeholder: "images/water3.jpg",
+                        note: "نرخ: ٤٥ د.ع بۆ شوشەی ٥٠ مل"
+                    },
+                    {
+                        name: "سوویت وۆرڵد",
+                        features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: orange blossom - vanilla - sweet - almond - musk - aromatic - citrus - coffee | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ٢٤ کاتژمێر",
+                        placeholder: "images/water4.jpg",
+                        note: "نرخ: ٤٥ د.ع بۆ شوشەی ٥٠ مل"
+                    },
+                    {
+                        name: "جیفۆرا",
+                        features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: citrus - woody - aromatic - sweet - floral - earthy - vanilla | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر",
+                        placeholder: "images/water5.jpg",
+                        note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل"
+                    },
+                    {
+                        name: "هێڵتۆن عود",
+                        features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: powder - vanilla - cool wood - amber - sandalwood | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر",
+                        placeholder: "images/water7.jpg",
+                        note: "نرخ: ٥٠ د.ع بۆ شوشەی ٥٠ مل"
+                    },
+                    {
+                        name: "یزار",
+                        features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: fruity - floral - fresh - soft - pine - woody - refreshing - amber - trees | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر",
+                        placeholder: "images/water8.jpg",
+                        note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل"
+                    }
                 ]
             },
             {
                 id: "french",
                 title: "بەشی عەتارە فەرەنسییەکان",
                 items: [
-                    { name: "انجيلز شير", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: warm spicy - woody - sweet - vanilla - cinnamon - amber - soft | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water9.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water9.jpg","images/water10.jpg"] },
-                    { name: "تيري دي هيرميس", features: "ڕەگەز: پیاوان | نۆتەکانی عەتار: citrus - woody - fresh spicy - aromatic - earthy - warm spicy | بڵاوبوونەوە: بەرز | مانەوە: کەمتری ١٢ کاتژمێر", placeholder: "images/water11.jpg", note: "نرخ: ٢٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water11.jpg","images/water12.jpg"] },
-                    { name: "سكاندل گولد", features: "ڕەگەز: ئافرەتان | نۆتەکانی عەتار: warm spicy - woody - leather - earthy - honey - patchouli - animalic - floral - sweet - white flowers | بڵاوبوونەوە: بەرز | مانەوە: کەمتری ١٢ کاتژمێر", placeholder: "images/water13.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water13.jpg","images/water14.jpg"] },
-                    { name: "الين مان", features: "ڕەگەز: پیاوان | نۆتەکانی عەتار: fresh spicy - woody - aromatic - amber - herbal - musky - anise - soft spices - leather - floral | بڵاوبوونەوە: بەرز | مانەوە: کەمتری ١٢ کاتژمێر", placeholder: "images/water15.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water15.jpg","images/water16.jpg"] },
-                    { name: "ماي سيلف", features: "ڕەگەز: پیاوان | نۆتەکانی عەتار: citrus - white flowers - patchouli - fresh spicy - woody - sweet | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water25.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water25.jpg","images/water26.jpg"] },
-                    { name: "بيبي كات", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: vanilla - fresh spicy - leather - warm spicy - amber - soft - musky - aromatic - balsamic - woody | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water27.jpg", note: "نرخ: ٤٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water27.jpg","images/water28.jpg"] },
-                    { name: "كوير انتينس", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: leather - woody - tobacco - animalic - fruity - sweet - floral - smoky - soft | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water29.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water29.jpg","images/water30.jpg"] }
+                    {
+                        name: "ئەنجێلز شیر",
+                        features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: warm spicy - woody - sweet - vanilla - cinnamon - amber - soft | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر",
+                        placeholder: "images/water9.jpg",
+                        note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل",
+                        images: ["images/water9.jpg", "images/water10.jpg"]
+                    },
+                    {
+                        name: "تێری دی هێرمێس",
+                        features: "ڕەگەز: پیاوان | نۆتەکانی عەتار: citrus - woody - fresh spicy - aromatic - earthy - warm spicy | بڵاوبوونەوە: بەرز | مانەوە: کەمتری ١٢ کاتژمێر",
+                        placeholder: "images/water11.jpg",
+                        note: "نرخ: ٢٥ د.ع بۆ شوشەی ٥٠ مل",
+                        images: ["images/water11.jpg", "images/water12.jpg"]
+                    },
+                    {
+                        name: "سکاندڵ گۆڵد",
+                        features: "ڕەگەز: ئافرەتان | نۆتەکانی عەتار: warm spicy - woody - leather - earthy - honey - patchouli - animalic - floral - sweet - white flowers | بڵاوبوونەوە: بەرز | مانەوە: کەمتری ١٢ کاتژمێر",
+                        placeholder: "images/water13.jpg",
+                        note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل",
+                        images: ["images/water13.jpg", "images/water14.jpg"]
+                    },
+                    {
+                        name: "ئەلین مان",
+                        features: "ڕەگەز: پیاوان | نۆتەکانی عەتار: fresh spicy - woody - aromatic - amber - herbal - musky - anise - soft spices - leather - floral | بڵاوبوونەوە: بەرز | مانەوە: کەمتری ١٢ کاتژمێر",
+                        placeholder: "images/water15.jpg",
+                        note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل",
+                        images: ["images/water15.jpg", "images/water16.jpg"]
+                    },
+                    {
+                        name: "مای سێلف",
+                        features: "ڕەگەز: پیاوان | نۆتەکانی عەتار: citrus - white flowers - patchouli - fresh spicy - woody - sweet | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر",
+                        placeholder: "images/water25.jpg",
+                        note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل",
+                        images: ["images/water25.jpg", "images/water26.jpg"]
+                    },
+                    {
+                        name: "بەیبی کات",
+                        features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: vanilla - fresh spicy - leather - warm spicy - amber - soft - musky - aromatic - balsamic - woody | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر",
+                        placeholder: "images/water27.jpg",
+                        note: "نرخ: ٤٥ د.ع بۆ شوشەی ٥٠ مل",
+                        images: ["images/water27.jpg", "images/water28.jpg"]
+                    },
+                    {
+                        name: "کویر ئینتێنس",
+                        features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: leather - woody - tobacco - animalic - fruity - sweet - floral - smoky - soft | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر",
+                        placeholder: "images/water29.jpg",
+                        note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل",
+                        images: ["images/water29.jpg", "images/water30.jpg"]
+                    }
                 ]
             },
             {
                 id: "italian",
                 title: "بەشی عەتارە ئیتاڵییەکان",
                 items: [
-                    { name: "ايتاليكا", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: sweet - almond - vanilla - lactonic - woody - warm spicy - soft - walnut - fruity - caramel | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water17.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water17.jpg","images/water18.jpg"] },
-                    { name: "كود بارفيوم", features: "ڕەگەز: پیاوان | نۆتەکانی عەتار: iris - aromatic - soft - woody - citrus - vanilla - earthy - aldehydes - violet - fresh spicy | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water21.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water21.jpg","images/water22.jpg"] },
-                    { name: "انتينس عود", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: amber - oud - leather - fresh spicy - warm spicy - animalic - fruity - smoky - sweet - woody | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water33.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water33.jpg","images/water34.jpg"] },
-                    { name: "اومو انتينيس", features: "ڕەگەز: پیاوان | نۆتەکانی عەتار: vanilla - iris - soft - leather - violet - sweet - earthy - aromatic - animalic - amber | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water39.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water39.jpg","images/water40.jpg"] }
+                    {
+                        name: "ئیتالیکا",
+                        features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: sweet - almond - vanilla - lactonic - woody - warm spicy - soft - walnut - fruity - caramel | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر",
+                        placeholder: "images/water17.jpg",
+                        note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل",
+                        images: ["images/water17.jpg", "images/water18.jpg"]
+                    },
+                    {
+                        name: "کۆد پەرفیوم",
+                        features: "ڕەگەز: پیاوان | نۆتەکانی عەتار: iris - aromatic - soft - woody - citrus - vanilla - earthy - aldehydes - violet - fresh spicy | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر",
+                        placeholder: "images/water21.jpg",
+                        note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل",
+                        images: ["images/water21.jpg", "images/water22.jpg"]
+                    },
+                    {
+                        name: "ئینتێنس عود",
+                        features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: amber - oud - leather - fresh spicy - warm spicy - animalic - fruity - smoky - sweet - woody | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر",
+                        placeholder: "images/water33.jpg",
+                        note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل",
+                        images: ["images/water33.jpg", "images/water34.jpg"]
+                    },
+                    {
+                        name: "ئۆمۆ ئینتێنیس",
+                        features: "ڕەگەز: پیاوان | نۆتەکانی عەتار: vanilla - iris - soft - leather - violet - sweet - earthy - aromatic - animalic - amber | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر",
+                        placeholder: "images/water39.jpg",
+                        note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل",
+                        images: ["images/water39.jpg", "images/water40.jpg"]
+                    }
                 ]
             },
             {
                 id: "american",
                 title: "بەشی عەتارە ئەمریکییەکان",
                 items: [
-                    { name: "عود وود", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: woody - warm spicy - oud - aromatic - vanilla - balsamic - fresh spicy - amber - soft - sweet | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water23.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water23.jpg","images/water24.jpg"] },
-                    { name: "فيري گود گيرل", features: "ڕەگەز: ئافرەتان | نۆتەکانی عەتار: fruity - rose - refreshing - vanilla - tropical - soft spices - sweet - sour | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water31.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water31.jpg","images/water32.jpg"] },
-                    { name: "هير سكرت", features: "ڕەگەز: ئافرەتان | نۆتەکانی عەتار: woody - fruity - vanilla - sweet - white flowers - citrus - amber - soft - aromatic - roman musk | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water35.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water35.jpg","images/water36.jpg"] },
-                    { name: "سترونك ويذ يو توباكو", features: "ڕەگەز: پیاوان | نۆتەکانی عەتار: warm spicy - amber - tobacco - vanilla - sweet - aromatic - soft spices - balsamic - fresh spicy - woody | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water35.jpg", note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water35.jpg","images/water36.jpg"] }
+                    {
+                        name: "عود وود",
+                        features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: woody - warm spicy - oud - aromatic - vanilla - balsamic - fresh spicy - amber - soft - sweet | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر",
+                        placeholder: "images/water23.jpg",
+                        note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل",
+                        images: ["images/water23.jpg", "images/water24.jpg"]
+                    },
+                    {
+                        name: "ڤێری گود گێرڵ",
+                        features: "ڕەگەز: ئافرەتان | نۆتەکانی عەتار: fruity - rose - refreshing - vanilla - tropical - soft spices - sweet - sour | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر",
+                        placeholder: "images/water31.jpg",
+                        note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل",
+                        images: ["images/water31.jpg", "images/water32.jpg"]
+                    },
+                    {
+                        name: "هێر سیکرێت",
+                        features: "ڕەگەز: ئافرەتان | نۆتەکانی عەتار: woody - fruity - vanilla - sweet - white flowers - citrus - amber - soft - aromatic - roman musk | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر",
+                        placeholder: "images/water35.jpg",
+                        note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل",
+                        images: ["images/water35.jpg", "images/water36.jpg"]
+                    },
+                    {
+                        name: "سترۆنگ ویذ یو تۆباکۆ",
+                        features: "ڕەگەز: پیاوان | نۆتەکانی عەتار: warm spicy - amber - tobacco - vanilla - sweet - aromatic - soft spices - balsamic - fresh spicy - woody | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر",
+                        placeholder: "images/water35.jpg",
+                        note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل",
+                        images: ["images/water35.jpg", "images/water36.jpg"]
+                    }
                 ]
             },
             {
                 id: "qatari",
                 title: "بەشی عەتارە قەتەرییەکان",
                 items: [
-                    { name: "ديماسكوس", features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: white flowers - rose - roman musk - soft - floral - vanilla - musky - fruity - sweet - animalic | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر", placeholder: "images/water19.jpg", note: "نرخ: ٤٥ د.ع بۆ شوشەی ٥٠ مل", images: ["images/water19.jpg","images/water20.jpg"] }
+                    {
+                        name: "دیماسکۆس",
+                        features: "ڕەگەز: یونیسێکس | نۆتەکانی عەتار: white flowers - rose - roman musk - soft - floral - vanilla - musky - fruity - sweet - animalic | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر",
+                        placeholder: "images/water19.jpg",
+                        note: "نرخ: ٤٥ د.ع بۆ شوشەی ٥٠ مل",
+                        images: ["images/water19.jpg", "images/water20.jpg"]
+                    }
                 ]
             }
         ]
@@ -173,74 +435,269 @@ let multilingualData = {
                 id: "agency",
                 title: "Agency Special Perfumes",
                 items: [
-                    { name: "عطر عبق", features: "Gender: Unisex | Notes: Citrus - Woody - Sweet - Spices - Fruity - Amber - Aromatic | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water1.jpg", note: "Price: 35 IQD / 50ml bottle" },
-                    { name: "عطر العنود", features: "Gender: Unisex | Notes: Floral - Aromatic - Fresh - Soft - Fruity - Woody - Refreshing - Citrus | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water2.jpg", note: "Price: 35 IQD / 50ml bottle" },
-                    { name: "بلو آيريس", features: "Gender: Unisex | Notes: Floral - Fruity - Patchouli - Soft - Fresh | Projection: Very High | Longevity: At least 24 hours", placeholder: "images/water3.jpg", note: "Price: 45 IQD / 50ml bottle" },
-                    { name: "سويت وورلد", features: "Gender: Unisex | Notes: Orange Blossom - Vanilla - Sweet - Almond - Musk - Aromatic - Citrus - Coffee | Projection: Very High | Longevity: At least 24 hours", placeholder: "images/water4.jpg", note: "Price: 45 IQD / 50ml bottle" },
-                    { name: "جيفورا", features: "Gender: Unisex | Notes: Citrus - Woody - Aromatic - Sweet - Floral - Earthy - Vanilla | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water5.jpg", note: "Price: 35 IQD / 50ml bottle" },
-                    { name: "هيلتون عود", features: "Gender: Unisex | Notes: Powdery - Vanilla - Cool Woods - Amber - Sandalwood | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water7.jpg", note: "Price: 50 IQD / 50ml bottle" },
-                    { name: "يزار", features: "Gender: Unisex | Notes: Fruity - Floral - Fresh - Soft - Pine - Woody - Refreshing - Amber - Trees | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water8.jpg", note: "Price: 35 IQD / 50ml bottle" }
+                    {
+                        name: "baq",
+                        features: "Gender: Unisex | Notes: Citrus - Woody - Sweet - Spices - Fruity - Amber - Aromatic | Projection: Very High | Longevity: At least until the next day",
+                        placeholder: "images/water1.jpg",
+                        note: "Price: 35 IQD / 50ml bottle"
+                    },
+                    {
+                        name: " Al Anoud",
+                        features: "Gender: Unisex | Notes: Floral - Aromatic - Fresh - Soft - Fruity - Woody - Refreshing - Citrus | Projection: Very High | Longevity: At least until the next day",
+                        placeholder: "images/water2.jpg",
+                        note: "Price: 35 IQD / 50ml bottle"
+                    },
+                    {
+                        name: "Blue Iris",
+                        features: "Gender: Unisex | Notes: Floral - Fruity - Patchouli - Soft - Fresh | Projection: Very High | Longevity: At least 24 hours",
+                        placeholder: "images/water3.jpg",
+                        note: "Price: 45 IQD / 50ml bottle"
+                    },
+                    {
+                        name: "Sweet World",
+                        features: "Gender: Unisex | Notes: Orange Blossom - Vanilla - Sweet - Almond - Musk - Aromatic - Citrus - Coffee | Projection: Very High | Longevity: At least 24 hours",
+                        placeholder: "images/water4.jpg",
+                        note: "Price: 45 IQD / 50ml bottle"
+                    },
+                    {
+                        name: "Jivora",
+                        features: "Gender: Unisex | Notes: Citrus - Woody - Aromatic - Sweet - Floral - Earthy - Vanilla | Projection: Very High | Longevity: At least until the next day",
+                        placeholder: "images/water5.jpg",
+                        note: "Price: 35 IQD / 50ml bottle"
+                    },
+                    {
+                        name: "Hilton Oud",
+                        features: "Gender: Unisex | Notes: Powdery - Vanilla - Cool Woods - Amber - Sandalwood | Projection: Very High | Longevity: At least until the next day",
+                        placeholder: "images/water7.jpg",
+                        note: "Price: 50 IQD / 50ml bottle"
+                    },
+                    {
+                        name: "Yazar",
+                        features: "Gender: Unisex | Notes: Fruity - Floral - Fresh - Soft - Pine - Woody - Refreshing - Amber - Trees | Projection: Very High | Longevity: At least until the next day",
+                        placeholder: "images/water8.jpg",
+                        note: "Price: 35 IQD / 50ml bottle"
+                    }
                 ]
             },
             {
                 id: "french",
                 title: "French Perfumes",
                 items: [
-                    { name: "انجيلز شير", features: "Gender: Unisex | Notes: Warm Spicy - Woody - Sweet - Vanilla - Cinnamon - Amber - Soft | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water9.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water9.jpg","images/water10.jpg"] },
-                    { name: "تيري دي هيرميس", features: "Gender: Men | Notes: Citrus - Woody - Fresh Spicy - Aromatic - Earthy - Warm Spicy | Projection: High | Longevity: At least 12 hours", placeholder: "images/water11.jpg", note: "Price: 25 IQD / 50ml bottle", images: ["images/water11.jpg","images/water12.jpg"] },
-                    { name: "سكاندل گولد", features: "Gender: Women | Notes: Warm Spicy - Woody - Leather - Earthy - Honey - Patchouli - Animalic - Floral - Sweet - White Flowers | Projection: High | Longevity: At least 12 hours", placeholder: "images/water13.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water13.jpg","images/water14.jpg"] },
-                    { name: "الين مان", features: "Gender: Men | Notes: Fresh Spicy - Woody - Aromatic - Amber - Herbal - Musky - Anise - Soft Spices - Leather - Floral | Projection: High | Longevity: At least 12 hours", placeholder: "images/water15.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water15.jpg","images/water16.jpg"] },
-                    { name: "ماي سيلف", features: "Gender: Men | Notes: Citrus - White Flowers - Patchouli - Fresh Spicy - Woody - Sweet | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water25.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water25.jpg","images/water26.jpg"] },
-                    { name: "بيبي كات", features: "Gender: Unisex | Notes: Vanilla - Fresh Spicy - Leather - Warm Spicy - Amber - Soft - Musky - Aromatic - Balsamic - Woody | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water27.jpg", note: "Price: 45 IQD / 50ml bottle", images: ["images/water27.jpg","images/water28.jpg"] },
-                    { name: "كوير انتينس", features: "Gender: Unisex | Notes: Leather - Woody - Tobacco - Animalic - Fruity - Sweet - Floral - Smoky - Soft | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water29.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water29.jpg","images/water30.jpg"] }
+                    {
+                        name: "Angels' Share",
+                        features: "Gender: Unisex | Notes: Warm Spicy - Woody - Sweet - Vanilla - Cinnamon - Amber - Soft | Projection: Very High | Longevity: At least until the next day",
+                        placeholder: "images/water9.jpg",
+                        note: "Price: 35 IQD / 50ml bottle",
+                        images: ["images/water9.jpg", "images/water10.jpg"]
+                    },
+                    {
+                        name: "Terre d'Hermès",
+                        features: "Gender: Men | Notes: Citrus - Woody - Fresh Spicy - Aromatic - Earthy - Warm Spicy | Projection: High | Longevity: At least 12 hours",
+                        placeholder: "images/water11.jpg",
+                        note: "Price: 25 IQD / 50ml bottle",
+                        images: ["images/water11.jpg", "images/water12.jpg"]
+                    },
+                    {
+                        name: "Scandal Gold",
+                        features: "Gender: Women | Notes: Warm Spicy - Woody - Leather - Earthy - Honey - Patchouli - Animalic - Floral - Sweet - White Flowers | Projection: High | Longevity: At least 12 hours",
+                        placeholder: "images/water13.jpg",
+                        note: "Price: 35 IQD / 50ml bottle",
+                        images: ["images/water13.jpg", "images/water14.jpg"]
+                    },
+                    {
+                        name: "Alien Man",
+                        features: "Gender: Men | Notes: Fresh Spicy - Woody - Aromatic - Amber - Herbal - Musky - Anise - Soft Spices - Leather - Floral | Projection: High | Longevity: At least 12 hours",
+                        placeholder: "images/water15.jpg",
+                        note: "Price: 35 IQD / 50ml bottle",
+                        images: ["images/water15.jpg", "images/water16.jpg"]
+                    },
+                    {
+                        name: "My Self",
+                        features: "Gender: Men | Notes: Citrus - White Flowers - Patchouli - Fresh Spicy - Woody - Sweet | Projection: Very High | Longevity: At least until the next day",
+                        placeholder: "images/water25.jpg",
+                        note: "Price: 35 IQD / 50ml bottle",
+                        images: ["images/water25.jpg", "images/water26.jpg"]
+                    },
+                    {
+                        name: "Baby Cat",
+                        features: "Gender: Unisex | Notes: Vanilla - Fresh Spicy - Leather - Warm Spicy - Amber - Soft - Musky - Aromatic - Balsamic - Woody | Projection: Very High | Longevity: At least until the next day",
+                        placeholder: "images/water27.jpg",
+                        note: "Price: 45 IQD / 50ml bottle",
+                        images: ["images/water27.jpg", "images/water28.jpg"]
+                    },
+                    {
+                        name: "Cuir Intense",
+                        features: "Gender: Unisex | Notes: Leather - Woody - Tobacco - Animalic - Fruity - Sweet - Floral - Smoky - Soft | Projection: Very High | Longevity: At least until the next day",
+                        placeholder: "images/water29.jpg",
+                        note: "Price: 35 IQD / 50ml bottle",
+                        images: ["images/water29.jpg", "images/water30.jpg"]
+                    }
                 ]
             },
             {
                 id: "italian",
                 title: "Italian Perfumes",
                 items: [
-                    { name: "ايتاليكا", features: "Gender: Unisex | Notes: Sweet - Almond - Vanilla - Lactonic - Woody - Warm Spicy - Soft - Walnut - Fruity - Caramel | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water17.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water17.jpg","images/water18.jpg"] },
-                    { name: "كود بارفيوم", features: "Gender: Men | Notes: Iris - Aromatic - Soft - Woody - Citrus - Vanilla - Earthy - Aldehydes - Violet - Fresh Spicy | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water21.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water21.jpg","images/water22.jpg"] },
-                    { name: "انتينس عود", features: "Gender: Unisex | Notes: Amber - Oud - Leather - Fresh Spicy - Warm Spicy - Animalic - Fruity - Smoky - Sweet - Woody | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water33.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water33.jpg","images/water34.jpg"] },
-                    { name: "اومو انتينيس", features: "Gender: Men | Notes: Vanilla - Iris - Soft - Leather - Violet - Sweet - Earthy - Aromatic - Animalic - Amber | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water39.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water39.jpg","images/water40.jpg"] }
+                    {
+                        name: "Italica",
+                        features: "Gender: Unisex | Notes: Sweet - Almond - Vanilla - Lactonic - Woody - Warm Spicy - Soft - Walnut - Fruity - Caramel | Projection: Very High | Longevity: At least until the next day",
+                        placeholder: "images/water17.jpg",
+                        note: "Price: 35 IQD / 50ml bottle",
+                        images: ["images/water17.jpg", "images/water18.jpg"]
+                    },
+                    {
+                        name: "Code Parfum",
+                        features: "Gender: Men | Notes: Iris - Aromatic - Soft - Woody - Citrus - Vanilla - Earthy - Aldehydes - Violet - Fresh Spicy | Projection: Very High | Longevity: At least until the next day",
+                        placeholder: "images/water21.jpg",
+                        note: "Price: 35 IQD / 50ml bottle",
+                        images: ["images/water21.jpg", "images/water22.jpg"]
+                    },
+                    {
+                        name: "Intense Oud",
+                        features: "Gender: Unisex | Notes: Amber - Oud - Leather - Fresh Spicy - Warm Spicy - Animalic - Fruity - Smoky - Sweet - Woody | Projection: Very High | Longevity: At least until the next day",
+                        placeholder: "images/water33.jpg",
+                        note: "Price: 35 IQD / 50ml bottle",
+                        images: ["images/water33.jpg", "images/water34.jpg"]
+                    },
+                    {
+                        name: "Uomo Intense",
+                        features: "Gender: Men | Notes: Vanilla - Iris - Soft - Leather - Violet - Sweet - Earthy - Aromatic - Animalic - Amber | Projection: Very High | Longevity: At least until the next day",
+                        placeholder: "images/water39.jpg",
+                        note: "Price: 35 IQD / 50ml bottle",
+                        images: ["images/water39.jpg", "images/water40.jpg"]
+                    }
                 ]
             },
             {
                 id: "american",
                 title: "American Perfumes",
                 items: [
-                    { name: "عود وود", features: "Gender: Unisex | Notes: Woody - Warm Spicy - Oud - Aromatic - Vanilla - Balsamic - Fresh Spicy - Amber - Soft - Sweet | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water23.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water23.jpg","images/water24.jpg"] },
-                    { name: "فيري گود گيرل", features: "Gender: Women | Notes: Fruity - Rose - Refreshing - Vanilla - Tropical - Soft Spices - Sweet - Sour | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water31.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water31.jpg","images/water32.jpg"] },
-                    { name: "هير سكرت", features: "Gender: Women | Notes: Woody - Fruity - Vanilla - Sweet - White Flowers - Citrus - Amber - Soft - Aromatic - Roman Musk | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water35.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water35.jpg","images/water36.jpg"] },
-                    { name: "سترونك ويذ يو توباكو", features: "Gender: Men | Notes: Warm Spicy - Amber - Tobacco - Vanilla - Sweet - Aromatic - Soft Spices - Balsamic - Fresh Spicy - Woody | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water35.jpg", note: "Price: 35 IQD / 50ml bottle", images: ["images/water35.jpg","images/water36.jpg"] }
+                    {
+                        name: "Oud Wood",
+                        features: "Gender: Unisex | Notes: Woody - Warm Spicy - Oud - Aromatic - Vanilla - Balsamic - Fresh Spicy - Amber - Soft - Sweet | Projection: Very High | Longevity: At least until the next day",
+                        placeholder: "images/water23.jpg",
+                        note: "Price: 35 IQD / 50ml bottle",
+                        images: ["images/water23.jpg", "images/water24.jpg"]
+                    },
+                    {
+                        name: "Very Good Girl",
+                        features: "Gender: Women | Notes: Fruity - Rose - Refreshing - Vanilla - Tropical - Soft Spices - Sweet - Sour | Projection: Very High | Longevity: At least until the next day",
+                        placeholder: "images/water31.jpg",
+                        note: "Price: 35 IQD / 50ml bottle",
+                        images: ["images/water31.jpg", "images/water32.jpg"]
+                    },
+                    {
+                        name: "Her Secret",
+                        features: "Gender: Women | Notes: Woody - Fruity - Vanilla - Sweet - White Flowers - Citrus - Amber - Soft - Aromatic - Roman Musk | Projection: Very High | Longevity: At least until the next day",
+                        placeholder: "images/water35.jpg",
+                        note: "Price: 35 IQD / 50ml bottle",
+                        images: ["images/water35.jpg", "images/water36.jpg"]
+                    },
+                    {
+                        name: "Strong With You Tobacco",
+                        features: "Gender: Men | Notes: Warm Spicy - Amber - Tobacco - Vanilla - Sweet - Aromatic - Soft Spices - Balsamic - Fresh Spicy - Woody | Projection: Very High | Longevity: At least until the next day",
+                        placeholder: "images/water35.jpg",
+                        note: "Price: 35 IQD / 50ml bottle",
+                        images: ["images/water35.jpg", "images/water36.jpg"]
+                    }
                 ]
             },
             {
                 id: "qatari",
                 title: "Qatari Perfumes",
                 items: [
-                    { name: "ديماسكوس", features: "Gender: Unisex | Notes: White Flowers - Rose - Roman Musk - Soft - Floral - Vanilla - Musky - Fruity - Sweet - Animalic | Projection: Very High | Longevity: At least until the next day", placeholder: "images/water19.jpg", note: "Price: 45 IQD / 50ml bottle", images: ["images/water19.jpg","images/water20.jpg"] }
+                    {
+                        name: "Damascus",
+                        features: "Gender: Unisex | Notes: White Flowers - Rose - Roman Musk - Soft - Floral - Vanilla - Musky - Fruity - Sweet - Animalic | Projection: Very High | Longevity: At least until the next day",
+                        placeholder: "images/water19.jpg",
+                        note: "Price: 45 IQD / 50ml bottle",
+                        images: ["images/water19.jpg", "images/water20.jpg"]
+                    }
                 ]
             }
         ]
     }
 };
 
-// =================== تحميل البيانات من localStorage (لوحة التحكم) ===================
-(function() {
-    const stored = localStorage.getItem('hk_perfume_data');
-    if (stored) {
-        try {
-            const adminData = JSON.parse(stored);
-            for (let lang in adminData) {
-                if (multilingualData[lang]) {
-                    multilingualData[lang] = adminData[lang];
-                }
+// =================== تحميل البيانات من IndexedDB (لوحة التحكم) ===================
+const DB_NAME = 'HK_Perfumes_DB';
+const DB_VERSION = 1;
+const STORE_NAME = 'perfume_data';
+const DATA_KEY = 'main_data';
+
+function openDB() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains(STORE_NAME)) {
+                db.createObjectStore(STORE_NAME);
             }
-        } catch (e) {
-            console.warn('فشل تحميل بيانات المدير، استخدام الافتراضية');
+        };
+        request.onsuccess = (event) => resolve(event.target.result);
+        request.onerror = (event) => reject(event.target.error);
+    });
+}
+
+async function loadDataFromDB() {
+    try {
+        const db = await openDB();
+        const transaction = db.transaction(STORE_NAME, 'readonly');
+        const store = transaction.objectStore(STORE_NAME);
+        const getRequest = store.get(DATA_KEY);
+        return new Promise((resolve, reject) => {
+            getRequest.onsuccess = () => {
+                if (getRequest.result) {
+                    resolve(getRequest.result);
+                } else {
+                    // لا توجد بيانات، حاول localStorage
+                    const stored = localStorage.getItem('hk_perfume_data');
+                    if (stored) {
+                        try {
+                            const parsed = JSON.parse(stored);
+                            resolve(parsed);
+                        } catch (e) {
+                            resolve(null);
+                        }
+                    } else {
+                        resolve(null);
+                    }
+                }
+            };
+            getRequest.onerror = () => {
+                // fallback to localStorage
+                const stored = localStorage.getItem('hk_perfume_data');
+                if (stored) {
+                    try {
+                        resolve(JSON.parse(stored));
+                    } catch (e) {
+                        resolve(null);
+                    }
+                } else {
+                    resolve(null);
+                }
+            };
+        });
+    } catch (e) {
+        console.warn('IndexedDB غير متاح، استخدام localStorage');
+        const stored = localStorage.getItem('hk_perfume_data');
+        return stored ? JSON.parse(stored) : null;
+    }
+}
+
+// تحميل البيانات ثم بدء الموقع
+(async function init() {
+    const adminData = await loadDataFromDB();
+    if (adminData) {
+        for (let lang in adminData) {
+            if (multilingualData[lang]) {
+                multilingualData[lang] = adminData[lang];
+            }
         }
     }
+    const lang = getLanguageFromURL();
+    applyDirection(lang);
+    fillContent(lang);
 })();
 
 // =================== الدوال الأساسية ===================
@@ -262,7 +719,9 @@ function fillContent(lang) {
 
     document.title = content.title;
     document.getElementById('homeLink').textContent = content.home;
-    document.getElementById('productsLink').innerHTML = content.products + ' <i class="fa-solid fa-chevron-down" style="font-size:11px; margin-right:4px;"></i>';
+    document.getElementById('productsLink').innerHTML =
+        content.products +
+        ' <i class="fa-solid fa-chevron-down" style="font-size:11px; margin-right:4px;"></i>';
     document.getElementById('contactLink').textContent = content.contact;
     document.getElementById('heroTitle').textContent = content.hero_title;
     document.getElementById('heroSub').textContent = content.hero_sub;
@@ -349,7 +808,10 @@ function renderSections(content) {
 
         section.items.forEach(item => {
             const card = document.createElement('div');
-            card.className = item.images && item.images.length > 0 ? 'product-card multi-image' : 'product-card single-image';
+            card.className =
+                item.images && item.images.length > 0
+                    ? 'product-card multi-image'
+                    : 'product-card single-image';
 
             const imageBox = document.createElement('div');
             imageBox.className = 'image-box';
@@ -396,7 +858,10 @@ function renderSections(content) {
             const showMoreBox = document.createElement('div');
             showMoreBox.className = 'show-more-box';
             const lang = document.documentElement.lang;
-            const showMoreText = lang === 'ar' ? 'عرض المزيد' : (lang === 'ku' ? 'بینینی زیاتر' : 'Show More');
+            const showMoreText =
+                lang === 'ar' ? 'عرض المزيد' :
+                lang === 'ku' ? 'بینینی زیاتر' :
+                'Show More';
             showMoreBox.innerHTML = `
                 <button class="btn-show-more">
                     ${showMoreText} <i class="fa-solid fa-chevron-down"></i>
@@ -414,9 +879,3 @@ function changeLanguage(lang) {
     url.searchParams.set('lang', lang);
     window.location.href = url.toString();
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    const lang = getLanguageFromURL();
-    applyDirection(lang);
-    fillContent(lang);
-});
