@@ -24,6 +24,7 @@ let multilingualData = {
         hours_val: "أهلاً وسهلاً بكم في جميع الأوقات",
         footer_text: "شركة HK - الفخامة والتميز في عالم العطور",
         all_categories: "كل الأقسام",
+        whatsapp_pretext: "سلام عليكم، أريد طلب هذا العطر:", // <-- النص المضاف
         sections: [
             {
                 id: "agency",
@@ -227,6 +228,7 @@ let multilingualData = {
         hours_val: "بەخێرهاتنتان دەکەین لە هەموو کاتێکدا",
         footer_text: "کۆمپانیای HK - ڕازاوەیی و ناوازەیی لە جیهانی عەتاردا",
         all_categories: "هەموو بەشەکان",
+        whatsapp_pretext: "سڵاو، دەمەوێ ئەم عەتارە داوا بکەم:", // <-- النص الكردي
         sections: [
             {
                 id: "agency",
@@ -430,6 +432,7 @@ let multilingualData = {
         hours_val: "Welcome at All Times",
         footer_text: "HK Company - Luxury & Excellence in the World of Fragrances",
         all_categories: "All Sections",
+        whatsapp_pretext: "Hello, I would like to order this perfume:", // <-- النص الإنجليزي
         sections: [
             {
                 id: "agency",
@@ -838,12 +841,15 @@ function renderSections(content) {
 
             const details = document.createElement('div');
             details.className = 'card-details';
+            // --- التعديل الأساسي لرسالة الواتساب ---
+            const pretext = content.whatsapp_pretext || "طلب عطر:";
+            const whatsappMsg = encodeURIComponent(pretext + " " + item.name);
             details.innerHTML = `
                 <h3 class="product-name">${item.name}</h3>
                 <p class="product-features">${item.features}</p>
                 ${item.note ? `<span class="product-note"><i class="fa-solid fa-circle-info"></i> ${item.note}</span>` : ''}
                 <div class="card-actions">
-                    <a href="https://wa.me/964${companyInfo.phone.slice(1)}" class="btn-order">
+                    <a href="https://wa.me/964${companyInfo.phone.slice(1)}?text=${whatsappMsg}" class="btn-order" target="_blank">
                         <i class="fa-brands fa-whatsapp"></i> ${content.btn_order}
                     </a>
                 </div>
