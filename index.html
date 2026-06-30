@@ -353,7 +353,7 @@
 <!-- =================== جميع السكربتات مدمجة بالكامل =================== -->
 <script>
 // ============================================================
-//  البيانات الكاملة (نفس محتوى index.js سابقاً بدون حذف)
+//  البيانات الكاملة (نفس محتوى index.js سابقاً - كاملة 100%)
 // ============================================================
 const companyInfo = {
     phone: "07710666646",
@@ -566,8 +566,25 @@ let multilingualData = {
     }
 };
 
-// =================== تحميل البيانات من localStorage ===================
-function loadData() {
+// =================== تحميل البيانات من data.json (الأساسي) أو localStorage (احتياط) ===================
+async function loadData() {
+    // محاولة جلب data.json من السيرفر أولاً
+    try {
+        const response = await fetch('data.json');
+        if (response.ok) {
+            const adminData = await response.json();
+            for (let lang in adminData) {
+                if (multilingualData[lang]) {
+                    multilingualData[lang] = adminData[lang];
+                }
+            }
+            return; // تم بنجاح
+        }
+    } catch (e) {
+        console.warn('تعذّر تحميل data.json، جاري تجربة localStorage');
+    }
+
+    // إذا فشل الجلب، نستخدم localStorage (لوحة التحكم المحلية)
     const stored = localStorage.getItem('hk_perfume_data');
     if (stored) {
         try {
@@ -746,19 +763,17 @@ function changeLanguage(lang) {
 }
 
 // =================== بدء التطبيق ===================
-(function init() {
-    loadData();
+(async function init() {
+    await loadData(); // تحميل البيانات من data.json أو localStorage
     const lang = getLanguageFromURL();
     applyDirection(lang);
     fillContent(lang);
-})();
 
-// =================== التحديث التلقائي عند تغيير البيانات من لوحة التحكم ===================
-window.addEventListener('storage', function(e) {
-    if (e.key === 'hk_perfume_data') {
+    // تجديد تلقائي كل 60 ثانية لضمان ظهور آخر التحديثات على جميع الأجهزة
+    setInterval(() => {
         location.reload();
-    }
-});
+    }, 60000);
+})();
 </script>
 
 <!-- ========== سكربتات الـ Lightbox + Dropdown + Show More + Hamburger ========== -->
