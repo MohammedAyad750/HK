@@ -479,6 +479,14 @@ function logout() {
 function saveAll() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     showMessage('تم حفظ البيانات بنجاح', 'success');
+    // 🔔 إرسال إشارة للموقع الرئيسي عبر BroadcastChannel
+    try {
+        const channel = new BroadcastChannel('hk_perfume_channel');
+        channel.postMessage('reload');
+        channel.close();
+    } catch (e) {
+        console.warn('BroadcastChannel غير مدعوم، الاعتماد على storage event');
+    }
 }
 
 function showMessage(msg, type) {
@@ -539,7 +547,6 @@ function renderProducts(secIdx) {
 }
 
 function showAddProduct(secIdx) {
-    // يمكنك توجيه المستخدم لنموذج الإضافة الجديد أو استخدام prompt (لكن يفضل النموذج الجديد)
     document.getElementById('productCategorySelect').value = secIdx;
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }

@@ -644,16 +644,18 @@ function openDB() {
 }
 
 async function loadDataFromDB() {
+    console.log('🔍 جاري تحميل البيانات...');
     // 1️⃣ الأولوية المطلقة لـ localStorage لأن لوحة التحكم تحفظ فيه
     const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (stored) {
         try {
             const parsed = JSON.parse(stored);
+            console.log('✅ تم تحميل البيانات من localStorage');
             // نزامن IndexedDB أيضاً لو كان متاحاً (اختياري)
             syncToIndexedDB(parsed).catch(() => {});
             return parsed;
         } catch (e) {
-            console.warn('بيانات localStorage تالفة');
+            console.warn('⚠️ بيانات localStorage تالفة');
         }
     }
 
@@ -666,15 +668,16 @@ async function loadDataFromDB() {
         return new Promise((resolve, reject) => {
             getRequest.onsuccess = () => {
                 if (getRequest.result) {
+                    console.log('📦 تم تحميل البيانات من IndexedDB');
                     // حفظ البيانات في localStorage لتكون الأولوية لاحقاً
                     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(getRequest.result));
                     resolve(getRequest.result);
                 } else {
+                    console.log('🔄 لا توجد بيانات محفوظة، سيتم استخدام الافتراضية');
                     resolve(null);
                 }
             };
             getRequest.onerror = () => {
-                // فشل IndexedDB، نرجع null
                 resolve(null);
             };
         });
@@ -696,6 +699,15 @@ async function syncToIndexedDB(data) {
     }
 }
 
+// =================== قناة التواصل بين التبويبات ===================
+const channel = new BroadcastChannel('hk_perfume_channel');
+channel.onmessage = (event) => {
+    if (event.data === 'reload') {
+        console.log('🔄 تم استلام إشارة تحديث من لوحة التحكم، جاري إعادة التحميل...');
+        window.location.reload();
+    }
+};
+
 // =================== بدء تشغيل الموقع ===================
 (async function init() {
     const adminData = await loadDataFromDB();
@@ -711,10 +723,10 @@ async function syncToIndexedDB(data) {
     applyDirection(lang);
     fillContent(lang);
 
-    // 🔄 مراقبة تغييرات localStorage من علامات تبويب أخرى (عند التعديل بلوحة التحكم)
+    // 🔄 مراقبة تغييرات localStorage من علامات تبويب أخرى (خطة بديلة)
     window.addEventListener('storage', function(e) {
         if (e.key === LOCAL_STORAGE_KEY || e.key === 'hk_data_updated') {
-            // إعادة تحميل الصفحة تلقائياً لعرض أحدث البيانات
+            console.log('🔄 تم اكتشاف تغيير في localStorage، إعادة تحميل...');
             location.reload();
         }
     });
