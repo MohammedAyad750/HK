@@ -24,7 +24,8 @@ let multilingualData = {
         hours_val: "أهلاً وسهلاً بكم في جميع الأوقات",
         footer_text: "شركة HK - الفخامة والتميز في عالم العطور",
         all_categories: "كل الأقسام",
-        whatsapp_pretext: "سلام عليكم، أريد طلب هذا العطر:",
+        // تم تعديل هذه السطر ↓
+        whatsapp_pretext: "السلام عليكم، أريد طلب هذا العطر:",
         sections: [
             {
                 id: "agency",
