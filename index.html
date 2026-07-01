@@ -473,7 +473,7 @@ document.addEventListener('keydown', e => {
 })();
 </script>
 
-<!-- ملف البيانات الرئيسي (سيقوم بتحميل js/data.json) -->
+<!-- ملف البيانات الرئيسي -->
 <script src="js/index.js"></script>
 
 <!-- ========== Hamburger + Drawer + Scroll Shrink + WhatsApp ========== -->
@@ -504,9 +504,7 @@ document.addEventListener('keydown', e => {
     });
     backdrop.addEventListener('click', closeDrawer);
     document.getElementById('drawerPanel').addEventListener('click', e => {
-        if (e.target.tagName === 'A' || e.target.closest('a')) {
-            closeDrawer();
-        }
+        if (e.target.tagName === 'A' || e.target.closest('a')) closeDrawer();
     });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
 
