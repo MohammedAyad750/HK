@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="pageTitle">HK</title>
 
+    <!-- ===== منع التخزين المؤقت للمتصفح ===== -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -474,11 +479,19 @@ document.addEventListener('keydown', e => {
 </script>
 
 <!-- ملف البيانات الرئيسي -->
-<script src="js/index.js"></script>
+<!-- ⚠️ عند تعديل js/index.js، قم بزيادة رقم الإصدارة (v=1 → v=2 ...) -->
+<script src="js/index.js?v=1"></script>
 
-<!-- ========== Hamburger + Drawer + Scroll Shrink + WhatsApp ========== -->
+<!-- ========== Hamburger + Drawer + Scroll Shrink + WhatsApp + Version Check ========== -->
 <script>
 (function () {
+    /* ── كشف الإصدارة الجديدة (إجبار الزوار القدامى على التحديث) ── */
+    const appVersion = "1";   // غيّره مع كل تحديث لـ index.js
+    if (localStorage.getItem("hk_app_version") !== appVersion) {
+        localStorage.setItem("hk_app_version", appVersion);
+        window.location.reload(true);
+    }
+
     /* ── Hamburger ── */
     const btn      = document.getElementById('hamburgerBtn');
     const drawer   = document.getElementById('mobileDrawer');
