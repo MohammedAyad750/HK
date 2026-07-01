@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="pageTitle">HK</title>
@@ -245,35 +242,6 @@
             .contact-card p  { font-size:13px!important; }
             .contact-card .phone-num { font-size:1.1rem!important; }
         }
-
-        /* --- زر التحديث السريع --- */
-        .refresh-btn {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            z-index: 9998;
-            background: #c9a84c;
-            color: #000;
-            border: none;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            font-size: 20px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .refresh-btn:hover {
-            background: #e0b84c;
-            transform: rotate(90deg);
-        }
-        [dir="ltr"] .refresh-btn {
-            left: 25px;
-            right: auto;
-        }
     </style>
 </head>
 
@@ -396,9 +364,6 @@
     <button id="modalNextBtn" class="modal-arrow right-arrow"><i class="fa-solid fa-chevron-right"></i></button>
 </div>
 
-<!-- زر التحديث السريع (يظهر بعد التحميل) -->
-<button class="refresh-btn" id="refreshBtn" title="تحديث المحتوى"><i class="fa-solid fa-rotate"></i></button>
-
 
 <!-- ========== JavaScript: Lightbox + Dropdown + Show More ========== -->
 <script>
@@ -506,19 +471,10 @@ document.addEventListener('keydown', e => {
         if (Math.abs(diff) >= 30) navModalImage(diff > 0 ? 1 : -1);
     }, { passive: true });
 })();
-
-/* ── زر التحديث اليدوي ── */
-document.getElementById('refreshBtn').addEventListener('click', function() {
-    // يجبر المتصفح على تجاهل الكاش بالكامل
-    window.location.href = window.location.href.split('?')[0] + '?force=' + Date.now();
-});
 </script>
 
-<!-- ملف البيانات الرئيسي (رقم إصدار متغير مع الوقت) -->
-<script>
-    // كتابة ديناميكية لـ script tag ب timestamp لضمان عدم التخزين المؤقت
-    document.write('<script src="js/index.js?v=' + Date.now() + '"><\/script>');
-</script>
+<!-- ملف البيانات الرئيسي (سيقوم بتحميل js/data.json) -->
+<script src="js/index.js"></script>
 
 <!-- ========== Hamburger + Drawer + Scroll Shrink + WhatsApp ========== -->
 <script>
@@ -548,7 +504,9 @@ document.getElementById('refreshBtn').addEventListener('click', function() {
     });
     backdrop.addEventListener('click', closeDrawer);
     document.getElementById('drawerPanel').addEventListener('click', e => {
-        if (e.target.tagName === 'A' || e.target.closest('a')) closeDrawer();
+        if (e.target.tagName === 'A' || e.target.closest('a')) {
+            closeDrawer();
+        }
     });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
 
