@@ -24,7 +24,7 @@ let multilingualData = {
         hours_val: "أهلاً وسهلاً بكم في جميع الأوقات",
         footer_text: "شركة HK - الفخامة والتميز في عالم العطور",
         all_categories: "كل الأقسام",
-        whatsapp_pretext: "سلام عليكم، أريد طلب هذا العطر:", // <-- النص المضاف
+        whatsapp_pretext: "سلام عليكم، أريد طلب هذا العطر:",
         sections: [
             {
                 id: "agency",
@@ -228,7 +228,7 @@ let multilingualData = {
         hours_val: "بەخێرهاتنتان دەکەین لە هەموو کاتێکدا",
         footer_text: "کۆمپانیای HK - ڕازاوەیی و ناوازەیی لە جیهانی عەتاردا",
         all_categories: "هەموو بەشەکان",
-        whatsapp_pretext: "سڵاو، دەمەوێ ئەم عەتارە داوا بکەم:", // <-- النص الكردي
+        whatsapp_pretext: "سڵاو، دەمەوێ ئەم عەتارە داوا بکەم:",
         sections: [
             {
                 id: "agency",
@@ -432,7 +432,7 @@ let multilingualData = {
         hours_val: "Welcome at All Times",
         footer_text: "HK Company - Luxury & Excellence in the World of Fragrances",
         all_categories: "All Sections",
-        whatsapp_pretext: "Hello, I would like to order this perfume:", // <-- النص الإنجليزي
+        whatsapp_pretext: "Hello, I would like to order this perfume:",
         sections: [
             {
                 id: "agency",
@@ -622,11 +622,12 @@ let multilingualData = {
     }
 };
 
-// =================== تحميل البيانات من IndexedDB (لوحة التحكم) ===================
+// =================== تحميل البيانات (الإصدار المُعدّل – الأولوية لـ localStorage) ===================
 const DB_NAME = 'HK_Perfumes_DB';
 const DB_VERSION = 1;
 const STORE_NAME = 'perfume_data';
 const DATA_KEY = 'main_data';
+const LOCAL_STORAGE_KEY = 'hk_perfume_data';
 
 function openDB() {
     return new Promise((resolve, reject) => {
@@ -643,6 +644,20 @@ function openDB() {
 }
 
 async function loadDataFromDB() {
+    // 1️⃣ الأولوية المطلقة لـ localStorage لأن لوحة التحكم تحفظ فيه
+    const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (stored) {
+        try {
+            const parsed = JSON.parse(stored);
+            // نزامن IndexedDB أيضاً لو كان متاحاً (اختياري)
+            syncToIndexedDB(parsed).catch(() => {});
+            return parsed;
+        } catch (e) {
+            console.warn('بيانات localStorage تالفة');
+        }
+    }
+
+    // 2️⃣ إذا لم توجد بيانات في localStorage، نجرب IndexedDB (احتياط)
     try {
         const db = await openDB();
         const transaction = db.transaction(STORE_NAME, 'readonly');
@@ -651,49 +666,43 @@ async function loadDataFromDB() {
         return new Promise((resolve, reject) => {
             getRequest.onsuccess = () => {
                 if (getRequest.result) {
+                    // حفظ البيانات في localStorage لتكون الأولوية لاحقاً
+                    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(getRequest.result));
                     resolve(getRequest.result);
-                } else {
-                    // لا توجد بيانات، حاول localStorage
-                    const stored = localStorage.getItem('hk_perfume_data');
-                    if (stored) {
-                        try {
-                            const parsed = JSON.parse(stored);
-                            resolve(parsed);
-                        } catch (e) {
-                            resolve(null);
-                        }
-                    } else {
-                        resolve(null);
-                    }
-                }
-            };
-            getRequest.onerror = () => {
-                // fallback to localStorage
-                const stored = localStorage.getItem('hk_perfume_data');
-                if (stored) {
-                    try {
-                        resolve(JSON.parse(stored));
-                    } catch (e) {
-                        resolve(null);
-                    }
                 } else {
                     resolve(null);
                 }
             };
+            getRequest.onerror = () => {
+                // فشل IndexedDB، نرجع null
+                resolve(null);
+            };
         });
     } catch (e) {
-        console.warn('IndexedDB غير متاح، استخدام localStorage');
-        const stored = localStorage.getItem('hk_perfume_data');
-        return stored ? JSON.parse(stored) : null;
+        console.warn('IndexedDB غير متاح');
+        return null;
     }
 }
 
-// تحميل البيانات ثم بدء الموقع
+// دالة مساعدة لمزامنة IndexedDB مع localStorage (اختياري)
+async function syncToIndexedDB(data) {
+    try {
+        const db = await openDB();
+        const transaction = db.transaction(STORE_NAME, 'readwrite');
+        const store = transaction.objectStore(STORE_NAME);
+        store.put(data, DATA_KEY);
+    } catch (e) {
+        // لا شيء مهم
+    }
+}
+
+// =================== بدء تشغيل الموقع ===================
 (async function init() {
     const adminData = await loadDataFromDB();
     if (adminData) {
         for (let lang in adminData) {
             if (multilingualData[lang]) {
+                // تحديث بيانات اللغة بالكامل (النصوص + الأقسام)
                 multilingualData[lang] = adminData[lang];
             }
         }
@@ -701,6 +710,14 @@ async function loadDataFromDB() {
     const lang = getLanguageFromURL();
     applyDirection(lang);
     fillContent(lang);
+
+    // 🔄 مراقبة تغييرات localStorage من علامات تبويب أخرى (عند التعديل بلوحة التحكم)
+    window.addEventListener('storage', function(e) {
+        if (e.key === LOCAL_STORAGE_KEY || e.key === 'hk_data_updated') {
+            // إعادة تحميل الصفحة تلقائياً لعرض أحدث البيانات
+            location.reload();
+        }
+    });
 })();
 
 // =================== الدوال الأساسية ===================
