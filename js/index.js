@@ -24,7 +24,7 @@ let multilingualData = {
         hours_val: "أهلاً وسهلاً بكم في جميع الأوقات",
         footer_text: "شركة HK - الفخامة والتميز في عالم العطور",
         all_categories: "كل الأقسام",
-        whatsapp_pretext: "سلام عليكم، أريد طلب هذا العطر:", // <-- النص المضاف
+        whatsapp_pretext: "سلام عليكم، أريد طلب هذا العطر:",
         sections: [
             {
                 id: "agency",
@@ -160,6 +160,13 @@ let multilingualData = {
                         placeholder: "images/water39.jpg",
                         note: "سعر 35 د.ع للزجاجة 50 مل",
                         images: ["images/water39.jpg", "images/water40.jpg"]
+                    },
+                    {
+                        name: "فيرساتشي ايروس بارفيوم",
+                        features: "الجنس : للرجال | النوتات العطرية :- اروماتك - تابلي منعش - العنبر - عشبي - الفانيلا - الحمضيات - فاكهي - منعش - تابلي دافئ - حلو       | الفوحان  عالي جداً | الثبات اقل مده ثاني يوم",
+                        placeholder: "images/water42.jpg",
+                        note: "سعر 35 د.ع للزجاجة 50 مل",
+                        images: ["images/water42.jpg", "images/water43.jpg"]
                     }
                 ]
             },
@@ -228,7 +235,7 @@ let multilingualData = {
         hours_val: "بەخێرهاتنتان دەکەین لە هەموو کاتێکدا",
         footer_text: "کۆمپانیای HK - ڕازاوەیی و ناوازەیی لە جیهانی عەتاردا",
         all_categories: "هەموو بەشەکان",
-        whatsapp_pretext: "سڵاو، دەمەوێ ئەم عەتارە داوا بکەم:", // <-- النص الكردي
+        whatsapp_pretext: "سڵاو، دەمەوێ ئەم عەتارە داوا بکەم:",
         sections: [
             {
                 id: "agency",
@@ -364,6 +371,13 @@ let multilingualData = {
                         placeholder: "images/water39.jpg",
                         note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل",
                         images: ["images/water39.jpg", "images/water40.jpg"]
+                    },
+                    {
+                        name: "ڤێرساچی ئیرۆس پەرفیوم",
+                        features: "ڕەگەز: پیاوان | نۆتەکانی عەتار: aromatic - fresh spicy - amber - herbal - vanilla - citrus - fruity - refreshing - warm spicy - sweet | بڵاوبوونەوە: زۆر بەرز | مانەوە: کەمتری ڕۆژی دواتر",
+                        placeholder: "images/water42.jpg",
+                        note: "نرخ: ٣٥ د.ع بۆ شوشەی ٥٠ مل",
+                        images: ["images/water42.jpg", "images/water43.jpg"]
                     }
                 ]
             },
@@ -432,7 +446,7 @@ let multilingualData = {
         hours_val: "Welcome at All Times",
         footer_text: "HK Company - Luxury & Excellence in the World of Fragrances",
         all_categories: "All Sections",
-        whatsapp_pretext: "Hello, I would like to order this perfume:", // <-- النص الإنجليزي
+        whatsapp_pretext: "Hello, I would like to order this perfume:",
         sections: [
             {
                 id: "agency",
@@ -568,6 +582,13 @@ let multilingualData = {
                         placeholder: "images/water39.jpg",
                         note: "Price: 35 IQD / 50ml bottle",
                         images: ["images/water39.jpg", "images/water40.jpg"]
+                    },
+                    {
+                        name: "Versace Eros Parfum",
+                        features: "Gender: Men | Notes: Aromatic - Fresh Spicy - Amber - Herbal - Vanilla - Citrus - Fruity - Refreshing - Warm Spicy - Sweet | Projection: Very High | Longevity: At least until the next day",
+                        placeholder: "images/water42.jpg",
+                        note: "Price: 35 IQD / 50ml bottle",
+                        images: ["images/water42.jpg", "images/water43.jpg"]
                     }
                 ]
             },
@@ -653,7 +674,6 @@ async function loadDataFromDB() {
                 if (getRequest.result) {
                     resolve(getRequest.result);
                 } else {
-                    // لا توجد بيانات، حاول localStorage
                     const stored = localStorage.getItem('hk_perfume_data');
                     if (stored) {
                         try {
@@ -668,7 +688,6 @@ async function loadDataFromDB() {
                 }
             };
             getRequest.onerror = () => {
-                // fallback to localStorage
                 const stored = localStorage.getItem('hk_perfume_data');
                 if (stored) {
                     try {
@@ -688,7 +707,6 @@ async function loadDataFromDB() {
     }
 }
 
-// تحميل البيانات ثم بدء الموقع
 (async function init() {
     const adminData = await loadDataFromDB();
     if (adminData) {
@@ -703,7 +721,6 @@ async function loadDataFromDB() {
     fillContent(lang);
 })();
 
-// =================== الدوال الأساسية ===================
 function getLanguageFromURL() {
     const params = new URLSearchParams(window.location.search);
     let lang = params.get('lang') || 'ar';
@@ -841,7 +858,6 @@ function renderSections(content) {
 
             const details = document.createElement('div');
             details.className = 'card-details';
-            // --- التعديل الأساسي لرسالة الواتساب ---
             const pretext = content.whatsapp_pretext || "طلب عطر:";
             const whatsappMsg = encodeURIComponent(pretext + " " + item.name);
             details.innerHTML = `
